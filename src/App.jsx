@@ -10,6 +10,7 @@ import TopBar from "./utils/TopBar";
 import LandingPage from "./Components/LandingPage.jsx";
 import AboutPage from "./Components/AboutPage.jsx"; 
 import ContactPage from "./Components/ContactPage.jsx"; 
+import AdminDashboard from "./Components/AdminDashboard.jsx";
 
 
 
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/AdminDashboard" element={<AdminDashboard/>} />
         </Routes>
 
         <Footer />

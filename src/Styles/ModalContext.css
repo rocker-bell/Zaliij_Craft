@@ -1,0 +1,52 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.modal-box {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 12px;
+  text-align: center;
+  min-width: 280px;
+  min-height: 300px;
+  animation: pop 0.25s ease;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.modal-box.loading {
+  border-top: 4px solid #555;
+}
+
+.modal-box.success {
+  border-top: 4px solid #22c55e;
+}
+
+.modal-box.error {
+  border-top: 4px solid #ef4444;
+}
+
+.spinner {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

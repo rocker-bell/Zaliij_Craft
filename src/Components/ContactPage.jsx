@@ -1,45 +1,10 @@
 import "../Styles/ContactPage.css"
-// const ContactPage = () => {
-//   return (
-//     <main className="contact-page">
-//       <header className="hero mini-hero">
-//         <div className="pattern-overlay"></div>
-//         <div className="hero-content">
-//           <span className="badge">Parlons de votre projet</span>
-//           <h1>Contactez-<span>Nous</span></h1>
-//         </div>
-//       </header>
-
-//       <section className="contact-grid-info" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '20px', padding: '0 10%', marginTop: '-50px' }}>
-//          <div className="stat-card" style={{ background: '#fff', color: '#333' }}>
-//             <p>📞 Téléphone</p>
-//             <h3>+212 660...</h3>
-//          </div>
-         
-//       </section>
-
-//       <section className="form-section" style={{ padding: '80px 10%', display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '40px' }}>
-//          <form className="contact-form">
-            
-//             <button className="btn-primary">Envoyer le message</button>
-//          </form>
-//          <div className="faq-box" style={{ background: 'var(--teal-dark)', color: '#fff', padding: '30px', borderRadius: '20px' }}>
-//             <h3>Pourquoi nous choisir ?</h3>
-//             <ul>
-//                <li>Devis gratuit et sans engagement</li>
-//                <li>Réponse rapide sous 24h</li>
-//             </ul>
-//          </div>
-//       </section>
-//     </main>
-//   );
-// };
-
-// export default ContactPage;
-
 
 import React, { useState } from "react";
 import "../Styles/ContactPage.css";
+
+import supabase from "../utils/supabase";
+import { useModal } from "../utils/ModalContext";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -50,14 +15,80 @@ const ContactPage = () => {
     message: ""
   });
 
+  const { showModal } = useModal();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Formulaire envoyé :", formData);
-  };
+//  const handleSubmit = async (e) => {
+//   e.preventDefault();
+
+//   const { data, error } = await supabase
+//     .from("contactus")
+//     .insert([
+//       {
+//         fullname: formData.nom,
+//         email: formData.email,
+//         telephone: formData.telephone,
+//         subject: formData.sujet,
+//         message: formData.message
+//       }
+//     ]);
+
+//   if (error) {
+//     console.error("Erreur Supabase:", error.message);
+//     alert("Erreur lors de l'envoi ❌");
+//   } else {
+//     console.log("Succès:", data);
+//     alert("Message envoyé avec succès ✅");
+
+//     // reset form
+//     setFormData({
+//       nom: "",
+//       email: "",
+//       telephone: "",
+//       sujet: "Selectionnez un sujet",
+//       message: ""
+//     });
+//   }
+// };
+
+    const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  // show loading modal
+  showModal("loading", "Envoi du message...");
+
+  const { data, error } = await supabase
+    .from("contactus")
+    .insert([
+      {
+        fullname: formData.nom,
+        email: formData.email,
+        telephone: formData.telephone,
+        subject: formData.sujet,
+        message: formData.message
+      }
+    ]);
+
+  if (error) {
+    console.error("Erreur Supabase:", error.message);
+
+    showModal("error", "Erreur lors de l'envoi ❌");
+    return;
+  }
+
+  // success
+  showModal("success", "Message envoyé avec succès ✅");
+
+  setFormData({
+    nom: "",
+    email: "",
+    telephone: "",
+    sujet: "Selectionnez un sujet",
+    message: ""
+  });
+};
 
   return (
     <main className="contact-page">
@@ -109,33 +140,33 @@ const ContactPage = () => {
             <div className="form-row">
               <div className="input-group">
                 <label>Nom complet *</label>
-                <input type="text" name="nom" placeholder="Votre nom" onChange={handleChange} required />
+                <input type="text" name="nom" placeholder="Votre nom" value={formData.nom} onChange={handleChange} required />
               </div>
               <div className="input-group">
                 <label>Email *</label>
-                <input type="email" name="email" placeholder="votre@email.com" onChange={handleChange} required />
+                <input type="email" name="email" placeholder="votre@email.com" value={formData.email} onChange={handleChange} required />
               </div>
             </div>
 
             <div className="form-row">
               <div className="input-group">
                 <label>Téléphone *</label>
-                <input type="tel" name="telephone" placeholder="+212 XXX XXX XXX" onChange={handleChange} required />
+                <input type="tel" name="telephone" placeholder="+212 XXX XXX XXX"  value={formData.telephone} onChange={handleChange} required />
               </div>
               <div className="input-group">
                 <label>Sujet *</label>
-                <select name="sujet" onChange={handleChange}>
+                <select name="sujet" value={formData.sujet} onChange={handleChange}>
                   <option>Sélectionnez un sujet</option>
-                  <option>Zellige Traditionnel</option>
-                  <option>Restauration de façade</option>
-                  <option>Design moderne</option>
+                  <option value="Zellige-Traditionnel">Zellige Traditionnel</option>
+                  <option value="Restauration-de-façade">Restauration de façade</option>
+                  <option value="Design-moderne">Design moderne</option>
                 </select>
               </div>
             </div>
 
             <div className="input-group">
               <label>Message *</label>
-              <textarea name="message" placeholder="Décrivez-nous votre projet..." rows="6" onChange={handleChange} required></textarea>
+              <textarea name="message" placeholder="Décrivez-nous votre projet..." rows="6" value={formData.message} onChange={handleChange} required></textarea>
             </div>
 
             <button type="submit" className="btn-primary">Envoyer le message</button>
