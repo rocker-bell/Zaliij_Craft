@@ -1,7 +1,11 @@
 import React from "react";
+import { useState } from "react";
 import "../Styles/LandingPage.css";
+import ProjectCard from "../utils/ProjectCard.jsx"
 
 const LandingPage = () => {
+    const [isActiveSlide, setActiveSlide] = useState(false);
+
   return (
     <div className="zellige-landing">
 
@@ -117,22 +121,56 @@ const LandingPage = () => {
 
       {/* FOOTER */}
       <footer className="footer">
-        <p>© 2026 Zellige Artisan</p>
-      </footer>
+  <div className="footer-container">
+    {/* Colonne 1: Marque */}
+    <div className="footer-brand">
+      <div className="logo">
+        <div className="logo-icon"></div>
+        <span>Zellige Artisan</span>
+      </div>
+      <p>
+        Maîtres artisans spécialisés dans le zellige traditionnel marocain. 
+        Nous transformons l'argile en art pour vos projets d'exception.
+      </p>
+      <div className="footer-socials">
+        <a href="#" aria-label="Instagram"><span>📸</span></a>
+        <a href="#" aria-label="Facebook"><span>👤</span></a>
+        <a href="#" aria-label="Pinterest"><span>📌</span></a>
+      </div>
+    </div>
+
+    {/* Colonne 2: Navigation Rapide */}
+    <div className="footer-nav">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#about">Qui sommes-nous ?</a></li>
+        <li><a href="#realisations">Nos Réalisations</a></li>
+        <li><a href="#devis">Demander un devis</a></li>
+      </ul>
+    </div>
+
+    {/* Colonne 3: Contact Direct */}
+    <div className="footer-contact">
+      <h4>Contact</h4>
+      <p>📍 Médina de Fès, Maroc</p>
+      <p>📞 +212 660 271 360</p>
+      <p>✉️ contact@zellige-artisan.ma</p>
+    </div>
+  </div>
+
+  <div className="footer-bottom">
+    <p>© 2026 Zellige Artisan. Tous droits réservés.</p>
+    <div className="footer-legal">
+      <a href="#">Mentions légales</a>
+      <a href="#">Confidentialité</a>
+    </div>
+  </div>
+</footer>
 
     </div>
   );
 };
 
-/* CARD */
-const ProjectCard = ({ image, title, desc }) => (
-  <div className="project-card">
-    <div className="card-img" style={{ backgroundImage: `url(${image})` }} />
-    <div className="card-body">
-      <h3>{title}</h3>
-      <p>{desc}</p>
-    </div>
-  </div>
-);
 
 export default LandingPage;

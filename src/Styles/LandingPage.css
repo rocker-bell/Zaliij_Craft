@@ -232,11 +232,144 @@
 .cta h2 { font-size: 2.5rem; margin-bottom: 30px; }
 
 /* --- FOOTER --- */
-.footer {
+/* .footer {
   padding: 40px 10%;
   text-align: center;
   background: #04181a;
   color: #718096;
   font-size: 0.9rem;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
+} */
+
+/* --- FOOTER SECTION --- */
+.footer {
+  background: #04181a; /* Plus sombre que le teal-dark pour la profondeur */
+  color: #cbd5e0;
+  padding: 80px 10% 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr; /* Donne plus d'importance à la marque */
+  gap: 60px;
+  margin-bottom: 60px;
+}
+
+.footer-brand .logo {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.footer-brand p {
+  line-height: 1.7;
+  font-size: 0.95rem;
+  margin-bottom: 25px;
+  color: #a0aec0;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 15px;
+}
+
+.footer-socials a {
+  background: rgba(255, 255, 255, 0.05);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-socials a:hover {
+  background: var(--orange);
+  transform: translateY(-3px);
+}
+
+/* Titres des colonnes */
+.footer h4 {
+  color: white;
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  font-weight: 700;
+  position: relative;
+}
+
+.footer h4::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 30px;
+  height: 2px;
+  background: var(--orange);
+}
+
+/* Listes de navigation */
+.footer-nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-nav ul li {
+  margin-bottom: 12px;
+}
+
+.footer-nav ul a {
+  color: #a0aec0;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+
+.footer-nav ul a:hover {
+  color: var(--orange);
+  padding-left: 5px;
+}
+
+/* Contact */
+.footer-contact p {
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Footer Bottom (Copyright) */
+.footer-bottom {
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #718096;
+}
+
+.footer-legal a {
+  color: #718096;
+  text-decoration: none;
+  margin-left: 20px;
+}
+
+.footer-legal a:hover {
+  color: white;
+}
+
+/* Responsivité Mobile */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
 }
