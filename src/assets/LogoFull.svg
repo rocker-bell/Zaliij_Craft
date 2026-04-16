@@ -1,0 +1,29 @@
+<svg width="300" height="120" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
+
+  <rect width="300" height="120" fill="#ffffff"/>
+
+  <!-- Motif géométrique -->
+  <g transform="translate(20,30)">
+    <polygon points="20,0 40,20 20,40 0,20" fill="#0f766e"/>
+    <polygon points="60,0 80,20 60,40 40,20" fill="#14b8a6"/>
+  </g>
+
+  <!-- Texte principal -->
+  <text x="110" y="65"
+        font-family="Arial, sans-serif"
+        font-size="26"
+        fill="#111"
+        font-weight="600">
+    Zaliij
+  </text>
+
+  <!-- Texte secondaire sur la même ligne -->
+  <text x="180" y="65"
+        font-family="Arial, sans-serif"
+        font-size="16"
+        fill="#555"
+        letter-spacing="2">
+    CRAFT
+  </text>
+
+</svg>

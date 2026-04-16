@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from "../assets/LogoFooter.svg";
 
 const Footer = () => {
   return (
@@ -8,8 +9,9 @@ const Footer = () => {
         {/* Colonne 1: Marque & Description */}
         <div className="footer-brand">
           <div className="logo">
-            <div className="logo-icon"></div>
-            <span>Zellige Artisan</span>
+            {/* <div className="logo-icon"></div>
+            <span>Zellige Artisan</span> */}
+            <img src={Logo} alt="" />
           </div>
           <p>
             Fabrication artisanale de zellige marocain depuis 1985. Nous perpétuons l'art ancestral de la mosaïque avec passion pour sublimer vos espaces.

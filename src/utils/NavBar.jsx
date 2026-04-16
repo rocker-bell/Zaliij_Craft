@@ -1,22 +1,36 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import Logo from "../assets/Logo.svg";
+import QuoteModal from "./QuoteModal";
 
-const Navbar = () => (
-  <nav className="navbar">
-    <Link to="/" className="logo" style={{ textDecoration: 'none' }}>
-      <div className="logo-icon"></div>
-      <span>Zellige Artisan</span>
-    </Link>
+const Navbar = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    <div className="nav-links">
-      <Link to="/">Accueil</Link>
-      <Link to="/about">Qui sommes-nous ?</Link>
-      <Link to="/contact">Contact</Link>
-    </div>
+  return (
+    <nav className="navbar">
+      <Link to="/" className="logo" style={{ textDecoration: "none" }}>
+        <img src={Logo} alt="" />
+      </Link>
 
-    <Link to="/contact">
-      <button className="btn-quote-nav">Devis gratuit</button>
-    </Link>
-  </nav>
-);
+      <div className="nav-links">
+        <Link to="/">Accueil</Link>
+        <Link to="/about">Qui sommes-nous ?</Link>
+        <Link to="/contact">Contact</Link>
+      </div>
+
+      <button
+        className="btn-primary"
+        onClick={() => setIsModalOpen(true)}
+      >
+        Demander un devis
+      </button>
+
+      <QuoteModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </nav>
+  );
+};
 
 export default Navbar;
