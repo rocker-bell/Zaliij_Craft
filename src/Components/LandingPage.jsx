@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "../Styles/LandingPage.css";
 import ProjectCard from "../utils/ProjectCard.jsx";
 
@@ -96,7 +97,7 @@ const LandingPage = () => {
       {/* Pre footer */}
       <section className="cta">
         <h2>Prêt pour votre projet ?</h2>
-        <button className="btn-primary">Contactez-nous</button>
+        <Link to="/about" className="btn-primary">Contactez-nous</Link>
       </section>
 
     

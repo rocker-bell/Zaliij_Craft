@@ -1,110 +1,232 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../Styles/AdminDashboard.css";
 import { useNavigate } from "react-router-dom";
+import supabase from "../utils/supabase";
 
 const AdminDashboard = () => {
-    const navigate = useNavigate()
-  const stats = [
-    { label: "Total Devis", value: 3, icon: "📄", color: "blue" },
-    { label: "En attente", value: 1, icon: "🕒", color: "orange" },
-    { label: "En révision", value: 1, icon: "📈", color: "purple" },
-    { label: "Devis envoyés", value: 1, icon: "✅", color: "green" },
-  ];
+  const navigate = useNavigate();
 
-  const devisData = [
-    { id: 1, client: "Mohammed Alami", email: "mohammed.alami@email.com", tel: "+212 661 234 567", type: "Résidentiel", budget: "50,000 - 100,000 MAD", date: "14/04/2026", statut: "En attente" },
-    { id: 2, client: "Fatima Bennani", email: "f.bennani@email.com", tel: "+212 662 345 678", type: "Commercial", budget: "100,000 - 200,000 MAD", date: "13/04/2026", statut: "En révision" },
-    { id: 3, client: "Youssef Tazi", email: "youssef.tazi@email.com", tel: "+212 663 456 789", type: "Restauration", budget: "200,000+ MAD", date: "12/04/2026", statut: "Devis envoyé" },
-  ];
+  // -----------------------------
+  // STATE
+  // -----------------------------
+  const [quotes, setQuotes] = useState([]);
+  const [contacts, setContacts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("quotes");
 
-  const HandleLogout = () => {
-    navigate('/')
+  // -----------------------------
+  // FETCH DATA
+  // -----------------------------
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+
+      const { data: quotesData, error: quotesError } = await supabase
+        .from("quotes")
+        .select("*")
+        .order("id", { ascending: false });
+
+      const { data: contactsData, error: contactsError } = await supabase
+        .from("contactus")
+        .select("*")
+        .order("id", { ascending: false });
+
+      if (!quotesError) setQuotes(quotesData || []);
+      if (!contactsError) setContacts(contactsData || []);
+
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  // -----------------------------
+  // LOGOUT
+  // -----------------------------
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/LoginPage");
+  };
+
+  // -----------------------------
+  // LOADING
+  // -----------------------------
+  if (loading) {
+    return <div className="loading">Loading dashboard...</div>;
   }
 
   return (
     <div className="AdminDashboard-container">
-      {/* Header du AdminDashboard */}
+
+      {/* HEADER */}
       <header className="AdminDashboard-header">
         <div className="admin-brand">
           <div className="logo-icon-admin"></div>
           <div>
-            <h1>AdminDashboard Admin</h1>
-            <p>Bienvenue, Admin Zellige</p>
+            <h1>Admin Dashboard</h1>
+            <p>Gestion des devis & messages</p>
           </div>
         </div>
-        <button className="btn-logout" onClick={HandleLogout}>Logout →</button>
+
+        <button className="btn-logout" onClick={handleLogout}>
+          Logout →
+        </button>
       </header>
 
-      {/* Cartes de Statistiques */}
+      {/* -----------------------------
+          STATS
+      ----------------------------- */}
       <section className="stats-grid">
-        {stats.map((item, index) => (
-          <div key={index} className="stat-card-admin">
-            <div className="stat-info">
-              <p>{item.label}</p>
-              <h2>{item.value}</h2>
-            </div>
-            <div className={`stat-icon-bg ${item.color}`}>{item.icon}</div>
-          </div>
-        ))}
+        <div className="stat-card-admin">
+          <p>Total Devis</p>
+          <h2>{quotes.length}</h2>
+        </div>
+
+        <div className="stat-card-admin">
+          <p>Messages Contact</p>
+          <h2>{contacts.length}</h2>
+        </div>
+
+        <div className="stat-card-admin">
+          <p>En attente</p>
+          <h2>{quotes.filter(q => !q.status || q.status === "pending").length}</h2>
+        </div>
       </section>
 
-      {/* Section Tableau des Devis */}
-      <section className="devis-section">
-        <div className="devis-header">
-          <div>
+      {/* -----------------------------
+          TAB SWITCHER
+      ----------------------------- */}
+      <div className="dashboard-tabs">
+        <button
+          className={activeTab === "quotes" ? "tab active" : "tab"}
+          onClick={() => setActiveTab("quotes")}
+        >
+          📄 Quotes ({quotes.length})
+        </button>
+
+        <button
+          className={activeTab === "contacts" ? "tab active" : "tab"}
+          onClick={() => setActiveTab("contacts")}
+        >
+          ✉️ Contacts ({contacts.length})
+        </button>
+      </div>
+
+      {/* -----------------------------
+          QUOTES
+      ----------------------------- */}
+      {activeTab === "quotes" && (
+        <section className="devis-section">
+          <div className="devis-header">
             <h2>Demandes de Devis</h2>
-            <p>Gérez toutes les demandes de devis reçues</p>
+            <p>Liste des demandes reçues</p>
           </div>
-          <select className="status-filter">
-            <option>Tous les statuts</option>
-            <option>En attente</option>
-            <option>En révision</option>
-            <option>Devis envoyé</option>
-          </select>
-        </div>
 
-        <div className="table-wrapper">
-          <table className="devis-table">
-            <thead>
-              <tr>
-                <th>CLIENT</th>
-                <th>TYPE</th>
-                <th>BUDGET</th>
-                <th>DATE</th>
-                <th>STATUT</th>
-                <th>ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {devisData.map((devis) => (
-                <tr key={devis.id}>
-                  <td className="client-cell">
-                    <strong>{devis.client}</strong>
-                    <span>{devis.email}</span>
-                    <span>{devis.tel}</span>
-                  </td>
-                  <td>{devis.type}</td>
-                  <td>{devis.budget}</td>
-                  <td>{devis.date}</td>
-                  <td>
-                    <span className={`status-badge ${devis.statut.toLowerCase().replace(" ", "-")}`}>
-                      {devis.statut}
-                    </span>
-                  </td>
-                  <td className="actions-cell">
-                    <button className="btn-view">👁️</button>
-                    <select className="status-select">
-                      <option>{devis.statut}</option>
-                      <option>Changer statut...</option>
-                    </select>
-                    <button className="btn-delete">🗑️</button>
-                  </td>
+          <div className="table-wrapper">
+            <table className="devis-table">
+              <thead>
+                <tr>
+                  <th>CLIENT</th>
+                  
+                  <th>TYPE</th>
+                  <th>BUDGET</th>
+                  <th>DATE</th>
+                  <th>STATUT</th>
+                  <th>ACTIONS</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+              </thead>
+
+              <tbody>
+                {quotes.map((item) => (
+                  <tr key={item.id}>
+                    <td className="client-cell">
+                      <strong>{item.full_name}</strong>
+                      
+                      <span>{item.email}</span>
+                      <span>{item.phone}</span>
+                    </td>
+
+                    <td>{item.project_type}</td>
+
+                    <td>{item.budget_range}</td>
+
+                    <td>
+                      {item.created_at
+                        ? new Date(item.created_at).toLocaleDateString()
+                        : "-"}
+                    </td>
+
+                    <td>
+                      <span className="status-badge">
+                        {item.status || "En attente"}
+                      </span>
+                    </td>
+
+                    <td className="actions-cell">
+                      <button className="btn-view">👁️</button>
+                      <button className="btn-delete">🗑️</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      {/* -----------------------------
+          CONTACTS
+      ----------------------------- */}
+      {activeTab === "contacts" && (
+        <section className="devis-section">
+          <div className="devis-header">
+            <h2>Messages Contact</h2>
+            <p>Messages envoyés via le formulaire contact</p>
+          </div>
+
+          <div className="table-wrapper">
+            <table className="devis-table">
+              <thead>
+                <tr>
+                  <th>NOM</th>
+                  <th>EMAIL</th>
+                  <th>TELEPHONE</th>
+                  <th>sujet</th>
+                  <th>MESSAGE</th>
+                  <th>DATE</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {contacts.map((c) => (
+                  <tr key={c.id}>
+                    <td>
+                      <strong>{c.fullname}</strong>
+                    </td>
+
+                    <td>{c.email}</td>
+
+                    
+
+                    <td>{c.telephone}</td>
+
+                    <td>{c.subject}</td>
+
+                    <td>{c.message}</td>
+
+                    <td>
+                      {c.created_at
+                        ? new Date(c.created_at).toLocaleDateString()
+                        : "-"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+
+            </table>
+          </div>
+        </section>
+      )}
     </div>
   );
 };

@@ -2,17 +2,46 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../Styles/LoginPage.css";
 
+import supabase from "../utils/supabase";
+import { useModal } from "../utils/ModalContext";
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const { showModal } = useModal()
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    console.log("Connexion avec :", email, password);
-    navigate('/AdminDashboard')
-  };
+
+ 
+  const handleLogin = async (e) => {
+  e.preventDefault();
+
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .eq("role", "admin") 
+    .single();
+
+  if (error || !data) {
+    showModal('error', 'connexion a echoue')
+    return;
+  }
+
+  // ⚠️ STILL NOT SECURE: password is not verified
+  showModal('success', 'connexion avec success mais non securise')
+
+  const expiryTime = Date.now() + 60 * 60 * 1000; // 1 hour
+
+localStorage.setItem("user", JSON.stringify({
+  email: data.email,
+  role: data.role,
+  isLoggedIn: true,
+  expiresAt: expiryTime
+}));
+
+  navigate("/AdminDashboard");
+};
 
   return (
     <div className="login-wrapper">
@@ -31,7 +60,7 @@ const LoginPage = () => {
           {/* Identifiants de test / Démo */}
           <div className="demo-box">
             <p className="demo-title">Démo - Identifiants de test :</p>
-            <p>Email: <span>admin@zellige-artisan.ma</span></p>
+            <p>Email: <span>admin@zellige-art.ma</span></p>
             <p>Mot de passe: <span>admin123</span></p>
           </div>
 
