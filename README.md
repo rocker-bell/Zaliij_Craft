@@ -116,14 +116,26 @@ The app will run on:
 
 ##  Author
 
+[@rocker_bell8](https://github.com/rocker-bell)
+
 Built with passion for Moroccan craftsmanship and modern web design.
 
-**Zellige CRAFT Project**
+**Zellige ART Project**
 
 
+## Third-Party Tools & Disclaimer
 
-##  License
+This project may interact with or reference third-party tools and services, these tools are used strictly for development and educational purposes.
 
-This project is for educational and commercial demonstration purposes.
+## License
+© 2026 rocker_bell8. All rights reserved.
 
+This project and its source code are proprietary.
+
+Only the owner (rocker_bell8) or explicitly designated parties may use, copy, modify, merge, publish, distribute, sublicense, or sell any part of this project.
+
+Any unauthorized use, reproduction, modification, or distribution by others is strictly prohibited.
+
+Note
+This project and repository are actively maintained and regularly updated.
 
