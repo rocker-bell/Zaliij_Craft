@@ -1,13 +1,13 @@
-#  Zellige Artisan – Landing Page
+#  ZelligeArt (Full stack project)
 
-A modern, responsive landing page built for a Moroccan zellige artisan business.  
+A modern, responsive landing page built for a Moroccan ZelligeArt business.  
 This project showcases traditional craftsmanship with a clean, premium web design.
 
 
 
 ## Overview
 
-**Zellige Artisan** is a React-based landing page designed to represent a traditional Moroccan craft brand in a modern digital format.
+**ZelligeArt** is a React-based landing page designed to represent a traditional Moroccan craft brand in a modern digital format.
 
 The goal of this project is to combine:
 - 🇲🇦 Moroccan cultural identity (zellige patterns & heritage)

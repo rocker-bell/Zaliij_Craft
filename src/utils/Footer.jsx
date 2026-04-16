@@ -43,7 +43,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>© 2026 Zellige Artisan. Tous droits réservés.</p>
+        <p>© 2026 Zellige ArtTravaux. Tous droits réservés.</p>
         <div className="footer-legal">
           <a href="/mentions-legales">Mentions légales</a>
           <a href="/confidentialite">Politique de confidentialité</a>

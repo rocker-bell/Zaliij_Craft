@@ -12,7 +12,7 @@
         font-size="26"
         fill="#f1f5f9"
         font-weight="600">
-    Zaliij
+    Zellij
   </text>
 
   <text x="180" y="65"
@@ -20,7 +20,7 @@
         font-size="16"
         fill="#e2e8f0"
         letter-spacing="2">
-    CRAFT
+    ART
   </text>
 
 </svg>
