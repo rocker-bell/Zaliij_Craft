@@ -20,13 +20,25 @@ const AdminDashboard = () => {
   const [showModal, setShowModal] = useState(false);
   
 
-const [newProject, setNewProject] = useState({
-  name: "",
-  type: "",
-  description: "",
-  status: "nouveau",
-  allocated_date: ""
-});
+  const [newProject, setNewProject] = useState({
+    name: "",
+    type: "",
+    description: "",
+    status: "nouveau",
+    allocated_date: ""
+  });
+
+
+  const ITEMS_PER_PAGE = 5;
+
+  const [quotesPage, setQuotesPage] = useState(1);
+  const [contactsPage, setContactsPage] = useState(1);
+  const [projectsPage, setProjectsPage] = useState(1);
+
+    const paginate = (data, page) => {
+    const start = (page - 1) * ITEMS_PER_PAGE;
+    return data.slice(start, start + ITEMS_PER_PAGE);
+  };
 
   const filteredProjects = Filter && Filter !== "Filter"
   ? projects.filter((p) => p.type === Filter)
@@ -234,21 +246,22 @@ const handleSubmitProject = async (e) => {
       <div className="dashboard-tabs">
         <button
           className={activeTab === "quotes" ? "tab active" : "tab"}
-          onClick={() => setActiveTab("quotes")}
+          onClick={() => {setActiveTab("quotes"); setQuotesPage(1)}}
+          
         >
           📄 Quotes ({quotes.length})
         </button>
 
         <button
           className={activeTab === "contacts" ? "tab active" : "tab"}
-          onClick={() => setActiveTab("contacts")}
+          onClick={() => {setActiveTab("contacts"); setContactsPage(1)}}
         >
           ✉️ Contacts ({contacts.length})
         </button>
 
           <button
           className={activeTab === "projects" ? "tab active" : "tab"}
-          onClick={() => setActiveTab("projects")}
+          onClick={() => {setActiveTab("projects"), setProjectsPage(1)}}
         >
           ✉️ Projects({projects.length})
         </button>
@@ -279,7 +292,7 @@ const handleSubmitProject = async (e) => {
               </thead>
 
               <tbody>
-                {quotes.map((item) => (
+                {paginate(quotes, quotesPage).map((item) => (
                   <tr key={item.id}>
                     <td className="client-cell">
                       <strong>{item.full_name}</strong>
@@ -312,6 +325,24 @@ const handleSubmitProject = async (e) => {
                 ))}
               </tbody>
             </table>
+
+            <div className="pagination">
+  <button
+    disabled={quotesPage === 1}
+    onClick={() => setQuotesPage((p) => p - 1)}
+  >
+    ←
+  </button>
+
+  <span>Page {quotesPage}</span>
+
+  <button
+    disabled={quotesPage * ITEMS_PER_PAGE >= quotes.length}
+    onClick={() => setQuotesPage((p) => p + 1)}
+  >
+    →
+  </button>
+</div>
           </div>
         </section>
       )}
@@ -340,7 +371,7 @@ const handleSubmitProject = async (e) => {
               </thead>
 
               <tbody>
-                {contacts.map((c) => (
+                {paginate(contacts, contactsPage).map((c) => (
                   <tr key={c.id}>
                     <td>
                       <strong>{c.fullname}</strong>
@@ -366,6 +397,24 @@ const handleSubmitProject = async (e) => {
               </tbody>
 
             </table>
+
+            <div className="pagination">
+  <button
+    disabled={contactsPage === 1}
+    onClick={() => setContactsPage((p) => p - 1)}
+  >
+    ←
+  </button>
+
+  <span>Page {contactsPage}</span>
+
+  <button
+    disabled={contactsPage * ITEMS_PER_PAGE >= contacts.length}
+    onClick={() => setContactsPage((p) => p + 1)}
+  >
+    →
+  </button>
+</div>
           </div>
         </section>
       )}
@@ -470,7 +519,7 @@ const handleSubmitProject = async (e) => {
         </thead>
 
         <tbody>
-          {filteredProjects.map((project) => (
+          {paginate(filteredProjects, projectsPage).map((project) => (
             <tr key={project.id}>
               <td>
                 <strong>{project.name}</strong>
@@ -508,6 +557,24 @@ const handleSubmitProject = async (e) => {
           ))}
         </tbody>
       </table>
+
+      <div className="pagination">
+  <button
+    disabled={projectsPage === 1}
+    onClick={() => setProjectsPage((p) => p - 1)}
+  >
+    ←
+  </button>
+
+  <span>Page {projectsPage}</span>
+
+  <button
+    disabled={projectsPage * ITEMS_PER_PAGE >= filteredProjects.length}
+    onClick={() => setProjectsPage((p) => p + 1)}
+  >
+    →
+  </button>
+</div>
     </div>
   </section>
 )}
