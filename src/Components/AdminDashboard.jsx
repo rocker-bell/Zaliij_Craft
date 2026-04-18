@@ -14,6 +14,7 @@ const AdminDashboard = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("quotes");
+  const [Filter, setFilter] = useState('')
 
   // -----------------------------
   // FETCH DATA
@@ -320,7 +321,17 @@ const AdminDashboard = () => {
   <section className="projects-section">
     <div className="projects-header">
       <h2>Liste des projets</h2>
+      <div className="projects-header-actions">
       <button className="btn-new-project" onClick={handleNewProject}>+ Nouveau Projet</button>
+      <select name="" id="" className="projects-filter"  value={Filter} onChange={(e) => setFilter(target.value)}>
+        <option value="Filter" selected>filter</option>
+        <option value="decoration">decoration</option>
+        <option value="construction">construction</option>
+        <option value="artisanat">artisanat</option>
+        <option value="export">export</option>
+        <option value="autre">autre</option>
+      </select>
+      </div>
     </div>
 
     <div className="table-wrapper">

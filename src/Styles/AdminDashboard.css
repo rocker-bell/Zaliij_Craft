@@ -195,3 +195,14 @@
   font-weight: 500;
   transition: 0.2s;
 }
+
+.projects-header-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.projects-filter {
+  padding: 10px 18px;
+}
