@@ -16,6 +16,10 @@ const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("quotes");
   const [Filter, setFilter] = useState('')
 
+  const filteredProjects = Filter && Filter !== "Filter"
+  ? projects.filter((p) => p.type === Filter)
+  : projects;
+
   // -----------------------------
   // FETCH DATA
   // -----------------------------
@@ -323,13 +327,17 @@ const AdminDashboard = () => {
       <h2>Liste des projets</h2>
       <div className="projects-header-actions">
       <button className="btn-new-project" onClick={handleNewProject}>+ Nouveau Projet</button>
-      <select name="" id="" className="projects-filter"  value={Filter} onChange={(e) => setFilter(target.value)}>
-        <option value="Filter" selected>filter</option>
-        <option value="decoration">decoration</option>
-        <option value="construction">construction</option>
-        <option value="artisanat">artisanat</option>
-        <option value="export">export</option>
-        <option value="autre">autre</option>
+          <select
+        className="projects-filter"
+        value={Filter}
+        onChange={(e) => setFilter(e.target.value)}
+      >
+            <option value="">Tous</option>
+            <option value="decoration">Decoration</option>
+            <option value="construction">Construction</option>
+            <option value="artisanat">Artisanat</option>
+            <option value="export">Export</option>
+            <option value="autre">Autre</option>
       </select>
       </div>
     </div>
@@ -349,7 +357,7 @@ const AdminDashboard = () => {
         </thead>
 
         <tbody>
-          {projects.map((project) => (
+          {filteredProjects.map((project) => (
             <tr key={project.id}>
               <td>
                 <strong>{project.name}</strong>
