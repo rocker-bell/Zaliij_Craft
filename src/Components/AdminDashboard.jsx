@@ -11,6 +11,7 @@ const AdminDashboard = () => {
   // -----------------------------
   const [quotes, setQuotes] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("quotes");
 
@@ -31,8 +32,15 @@ const AdminDashboard = () => {
         .select("*")
         .order("id", { ascending: false });
 
+      const {data: projectsData, error: projectsError} = await supabase
+        .from("projects")
+        .select("*")
+        .order("id", {ascending:false});
+      
+
       if (!quotesError) setQuotes(quotesData || []);
       if (!contactsError) setContacts(contactsData || []);
+      if (!projectsError) setProjects(projectsData || []);
 
       setLoading(false);
     };
@@ -47,6 +55,11 @@ const AdminDashboard = () => {
     localStorage.removeItem("user");
     navigate("/LoginPage");
   };
+
+  const handleNewProject = () => {
+    alert("new project click")
+  }
+
 
   // -----------------------------
   // LOADING
@@ -91,6 +104,10 @@ const AdminDashboard = () => {
           <p>En attente</p>
           <h2>{quotes.filter(q => !q.status || q.status === "pending").length}</h2>
         </div>
+         <div className="stat-card-admin">
+          <p>Projects</p>
+          <h2>{quotes.filter(q => !q.status || q.status === "pending").length}</h2>
+        </div>
       </section>
 
       {/* -----------------------------
@@ -109,6 +126,13 @@ const AdminDashboard = () => {
           onClick={() => setActiveTab("contacts")}
         >
           ✉️ Contacts ({contacts.length})
+        </button>
+
+          <button
+          className={activeTab === "projects" ? "tab active" : "tab"}
+          onClick={() => setActiveTab("projects")}
+        >
+          ✉️ Projects({projects.length})
         </button>
       </div>
 
@@ -178,8 +202,8 @@ const AdminDashboard = () => {
           CONTACTS
       ----------------------------- */}
       {activeTab === "contacts" && (
-        <section className="devis-section">
-          <div className="devis-header">
+        <section className="contacts-section">
+          <div className="contacts-header">
             <h2>Messages Contact</h2>
             <p>Messages envoyés via le formulaire contact</p>
           </div>
@@ -227,6 +251,134 @@ const AdminDashboard = () => {
           </div>
         </section>
       )}
+
+
+{/* 
+       {activeTab === "projects" && (
+        <section className="projects-section">
+          <div className="projects-header">
+            <h2>liste des projets</h2>
+            <button>
+                  Nouveau Projet
+            </button>
+            
+          </div>
+
+          <div className="table-wrapper">
+            <table className="projects-table">
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>Nom</th>
+                  
+                  <th>TYPE</th>
+                  <th>BUDGET</th>
+                  <th>DATE</th>
+                  <th>STATUT</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {projects.map((item) => (
+                  <tr key={item.id}>
+                    <td className="client-cell">
+                      <strong>{item.full_name}</strong>
+                      
+                      <span>{item.email}</span>
+                      <span>{item.phone}</span>
+                    </td>
+
+                    <td>{item.project_type}</td>
+
+                    <td>{item.budget_range}</td>
+
+                    <td>
+                      {item.created_at
+                        ? new Date(item.created_at).toLocaleDateString()
+                        : "-"}
+                    </td>
+
+                    <td>
+                      <span className="status-badge">
+                        {item.status || "En attente"}
+                      </span>
+                    </td>
+
+                    <td className="actions-cell">
+                      <button className="btn-view">👁️</button>
+                      <button className="btn-delete">🗑️</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )} */}
+      {activeTab === "projects" && (
+  <section className="projects-section">
+    <div className="projects-header">
+      <h2>Liste des projets</h2>
+      <button className="btn-new-project" onClick={handleNewProject}>+ Nouveau Projet</button>
+    </div>
+
+    <div className="table-wrapper">
+      <table className="devis-table">
+        <thead>
+          <tr>
+            <th>NOM</th>
+            <th>TYPE</th>
+            <th>DESCRIPTION</th>
+            <th>DATE CRÉATION</th>
+            <th>DATE ALLOUÉE</th>
+            <th>STATUT</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {projects.map((project) => (
+            <tr key={project.id}>
+              <td>
+                <strong>{project.name}</strong>
+              </td>
+
+              <td>{project.type || "-"}</td>
+
+              <td className="description-cell">
+                {project.description || "-"}
+              </td>
+
+              <td>
+                {project.created_at
+                  ? new Date(project.created_at).toLocaleDateString()
+                  : "-"}
+              </td>
+
+              <td>
+                {project.allocated_date
+                  ? new Date(project.allocated_date).toLocaleDateString()
+                  : "-"}
+              </td>
+
+              <td>
+                <span className={`status-badge ${project.status}`}>
+                  {project.status}
+                </span>
+              </td>
+
+              <td className="actions-cell">
+                <button className="btn-view">👁️</button>
+                <button className="btn-delete">🗑️</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+)}
     </div>
   );
 };
