@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Styles/AdminDashboard.css";
 import { useNavigate } from "react-router-dom";
 import supabase from "../utils/supabase";
+import {useModal} from "../utils/ModalContext"
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -14,11 +15,24 @@ const AdminDashboard = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("quotes");
-  const [Filter, setFilter] = useState('')
+  const [Filter, setFilter] = useState('');
+
+  const [showModal, setShowModal] = useState(false);
+  
+
+const [newProject, setNewProject] = useState({
+  name: "",
+  type: "",
+  description: "",
+  status: "nouveau",
+  allocated_date: ""
+});
 
   const filteredProjects = Filter && Filter !== "Filter"
   ? projects.filter((p) => p.type === Filter)
   : projects;
+
+
 
   // -----------------------------
   // FETCH DATA
@@ -61,9 +75,108 @@ const AdminDashboard = () => {
     navigate("/LoginPage");
   };
 
-  const handleNewProject = () => {
-    alert("new project click")
+  const handleChange = (e) => {
+  const { name, value } = e.target;
+  setNewProject((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+};
+
+// const handleSubmitProject = async (e) => {
+//   e.preventDefault();
+
+//   const { error } = await supabase.from("projects").insert([
+//     {
+//       name: newProject.name,
+//       type: newProject.type,
+//       description: newProject.description,
+//       status: newProject.status,
+//       allocated_date: newProject.allocated_date || null,
+//     },
+//   ]);
+
+//   if (error) {
+//     alert("Error creating project");
+//     console.error(error);
+//   } else {
+//     // refresh UI
+//     const { data } = await supabase
+//   .from("projects")
+//   .select("*")
+//   .order("created_at", { ascending: false });
+
+// setProjects(data);
+
+//     // reset form
+//     setNewProject({
+//       name: "",
+//       type: "",
+//       description: "",
+//       status: "nouveau",
+//       allocated_date: "",
+//     });
+
+//     setShowModal(false);
+//   }
+// };
+
+    const { showModal: showToast } = useModal();
+
+const handleSubmitProject = async (e) => {
+  e.preventDefault();
+
+  showToast("loading", "Création du projet...");
+
+  const { error } = await supabase.from("projects").insert([
+    {
+      name: newProject.name,
+      type: newProject.type,
+      description: newProject.description,
+      status: newProject.status,
+      allocated_date: newProject.allocated_date || null,
+    },
+  ]);
+
+  if (error) {
+    showToast("error", "Erreur lors de creation du projet");
+    console.error(error);
+    return;
   }
+
+  // refresh projects
+  const { data } = await supabase
+    .from("projects")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  setProjects(data);
+
+  // reset form
+  setNewProject({
+    name: "",
+    type: "",
+    description: "",
+    status: "nouveau",
+    allocated_date: "",
+  });
+
+  setShowModal(false);
+
+  showToast("success", "Projet ajouté avec succès");
+};
+
+  const handleNewProject = () => {
+  setShowModal(true);
+};
+
+  const closeModal = () => {
+  setShowModal(false);
+};
+
+  // const handleNewProject = () => {
+  //   alert("new project click")
+  // }
 
 
   // -----------------------------
@@ -107,11 +220,11 @@ const AdminDashboard = () => {
 
         <div className="stat-card-admin">
           <p>En attente</p>
-          <h2>{quotes.filter(q => !q.status || q.status === "pending").length}</h2>
+          <h2>{quotes.filter(q => !q.status || q.status === "new").length}</h2>
         </div>
          <div className="stat-card-admin">
           <p>Projects</p>
-          <h2>{quotes.filter(q => !q.status || q.status === "pending").length}</h2>
+          <h2>{projects.filter(q => !q.status || q.status === "nouveau").length}</h2>
         </div>
       </section>
 
@@ -398,6 +511,61 @@ const AdminDashboard = () => {
     </div>
   </section>
 )}
+
+              {showModal && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <h2>Nouveau Projet</h2>
+
+              <form onSubmit={handleSubmitProject}>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Nom du projet"
+                  value={newProject.name}
+                  onChange={handleChange}
+                  required
+                />
+
+                <select
+                  name="type"
+                  value={newProject.type}
+                  onChange={handleChange}
+                >
+                  <option value="">Type</option>
+                  <option value="decoration">Decoration</option>
+                  <option value="construction">Construction</option>
+                  <option value="artisanat">Artisanat</option>
+                  <option value="export">Export</option>
+                  <option value="autre">Autre</option>
+                </select>
+
+                <textarea
+                  name="description"
+                  placeholder="Description"
+                  value={newProject.description}
+                  onChange={handleChange}
+                />
+
+                <input
+                  type="date"
+                  name="allocated_date"
+                  value={newProject.allocated_date}
+                  onChange={handleChange}
+                />
+
+                <div className="modal-actions">
+                  <button type="button" onClick={closeModal}>
+                    Annuler
+                  </button>
+                  <button type="submit" className="btn-primary">
+                    Ajoute
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
     </div>
   );
 };
