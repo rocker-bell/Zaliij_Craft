@@ -13,6 +13,9 @@ const AdminDashboard = () => {
   const [quotes, setQuotes] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [exports, setExports] = useState([]);
+const [factures, setFactures] = useState([]);
+const [statistiques, setStatistiques] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("quotes");
   const [Filter, setFilter] = useState('');
@@ -34,6 +37,10 @@ const AdminDashboard = () => {
   const [quotesPage, setQuotesPage] = useState(1);
   const [contactsPage, setContactsPage] = useState(1);
   const [projectsPage, setProjectsPage] = useState(1);
+  const [exportsPage, setexportsPage] = useState(1);
+  const [facturesPage, setFacturesPage] = useState(1);
+  const [statistiquesPage, setStatistiquesPage] = useState(1);
+
 
     const paginate = (data, page) => {
     const start = (page - 1) * ITEMS_PER_PAGE;
@@ -44,6 +51,71 @@ const AdminDashboard = () => {
   ? projects.filter((p) => p.type === Filter)
   : projects;
 
+
+    // fake simulation
+
+
+    // -----------------------------
+// SIMULATION DATA
+// -----------------------------
+// const fakeExports = Array.from({ length: 12 }, (_, i) => ({
+//   id: i + 1,
+//   client: "Client " + (i + 1),
+//   product: ["Tapis", "Zellige", "Bois"][i % 3],
+//   country: ["France", "Espagne", "USA"][i % 3],
+//   amount: Math.floor(Math.random() * 10000) + " €",
+//   date: new Date().toISOString()
+// }));
+
+// const fakeFactures = Array.from({ length: 10 }, (_, i) => ({
+//   id: i + 1,
+//   client: "Client " + (i + 1),
+//   total: Math.floor(Math.random() * 20000) + " MAD",
+//   status: ["payée", "en attente", "annulée"][i % 3],
+//   date: new Date().toISOString()
+// }));
+
+// const fakeStats = [
+//   { label: "Total revenus", value: "120,000 MAD" },
+//   { label: "Exports", value: "35" },
+//   { label: "Factures payées", value: "22" },
+//   { label: "Projets actifs", value: projects.length }
+// ];
+
+// setExports(fakeExports);
+// setFactures(fakeFactures);
+// setStatistiques(fakeStats);
+
+
+useEffect(() => {
+  const fakeExports = Array.from({ length: 12 }, (_, i) => ({
+    id: i + 1,
+    client: "Client " + (i + 1),
+    product: ["Tapis", "Zellige", "Bois"][i % 3],
+    country: ["France", "Espagne", "USA"][i % 3],
+    amount: Math.floor(Math.random() * 10000) + " €",
+    date: new Date().toISOString()
+  }));
+
+  const fakeFactures = Array.from({ length: 10 }, (_, i) => ({
+    id: i + 1,
+    client: "Client " + (i + 1),
+    total: Math.floor(Math.random() * 20000) + " MAD",
+    status: ["payée", "en attente", "annulée"][i % 3],
+    date: new Date().toISOString()
+  }));
+
+  const fakeStats = [
+    { label: "Total revenus", value: "120,000 MAD" },
+    { label: "Exports", value: "35" },
+    { label: "Factures payées", value: "22" },
+    { label: "Projets actifs", value: projects.length }
+  ];
+
+  setExports(fakeExports);
+  setFactures(fakeFactures);
+  setStatistiques(fakeStats);
+}, []); // ← IMPORTANT
 
 
   // -----------------------------
@@ -265,6 +337,27 @@ const handleSubmitProject = async (e) => {
         >
           ✉️ Projects({projects.length})
         </button>
+
+         <button
+          className={activeTab === "exports" ? "tab active" : "tab"}
+          onClick={() => {setActiveTab("exports"); setexportsPage(1)}}
+        >
+          ✉️ exports({exports.length})
+        </button>
+
+         <button
+          className={activeTab === "factures" ? "tab active" : "tab"}
+          onClick={() => {setActiveTab("factures"); setFacturesPage(1)}}
+
+        >
+          ✉️ factures({factures.length})
+        </button>
+        <button
+          className={activeTab === "statistiques" ? "tab active" : "tab"}
+          onClick={() => {setActiveTab("statistiques"); setStatistiquesPage(1)}}
+        >
+          ✉️ statistiques({statistiques.length})
+        </button>
       </div>
 
       {/* -----------------------------
@@ -419,6 +512,7 @@ const handleSubmitProject = async (e) => {
         </section>
       )}
 
+     
 
 {/* 
        {activeTab === "projects" && (
@@ -575,6 +669,87 @@ const handleSubmitProject = async (e) => {
     →
   </button>
 </div>
+    </div>
+  </section>
+)}
+
+            {activeTab === "exports" && (
+  <section className="section">
+    <h2>Exports</h2>
+
+    <table className="devis-table">
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>Produit</th>
+          <th>Pays</th>
+          <th>Montant</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {paginate(exports, exportsPage).map((e) => (
+          <tr key={e.id}>
+            <td>{e.client}</td>
+            <td>{e.product}</td>
+            <td>{e.country}</td>
+            <td>{e.amount}</td>
+            <td>{new Date(e.date).toLocaleDateString()}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+)}
+
+
+
+{activeTab === "factures" && (
+  <section className="section">
+    <h2>Factures</h2>
+
+    <table className="devis-table">
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {paginate(factures, facturesPage).map((f) => (
+          <tr key={f.id}>
+            <td>{f.client}</td>
+            <td>{f.total}</td>
+            <td>
+              <span className={`status-badge ${f.status}`}>
+                {f.status}
+              </span>
+            </td>
+            <td>{new Date(f.date).toLocaleDateString()}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+)}
+
+
+
+{activeTab === "statistiques" && (
+  <section className="section">
+    <h2>Statistiques</h2>
+
+    <div className="stats-grid">
+      {statistiques.map((s, i) => (
+        <div key={i} className="stat-card-admin">
+          <p>{s.label}</p>
+          <h2>{s.value}</h2>
+        </div>
+      ))}
     </div>
   </section>
 )}
