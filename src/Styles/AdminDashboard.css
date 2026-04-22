@@ -178,14 +178,19 @@
   color: #3b82f6;
 }
 
-.en-cours {
-  background: #fff7ed;
-  color: #f97316;
+.en_cours {
+  background: orange;
+  color: white;
 }
 
 .termine {
   background: #f0fdf4;
   color: #22c55e;
+}
+
+.annuler {
+  background: red;
+  color: white;
 }
 
 .description-cell {
@@ -315,4 +320,11 @@
 
 .pagination span {
   font-weight: 600;
+}
+
+/* table styles */
+
+
+tr, td {
+  padding: 10px 10px;
 }

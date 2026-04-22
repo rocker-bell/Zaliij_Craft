@@ -31,6 +31,10 @@ const [statistiques, setStatistiques] = useState([]);
     allocated_date: ""
   });
 
+    // const [ProjectStatus, setProjectStatus] = useState("")
+
+  // Pagination
+
 
   const ITEMS_PER_PAGE = 5;
 
@@ -151,6 +155,7 @@ useEffect(() => {
     fetchData();
   }, []);
 
+
   // -----------------------------
   // LOGOUT
   // -----------------------------
@@ -166,6 +171,50 @@ useEffect(() => {
     [name]: value,
   }));
 };
+
+
+// async function changeProjectStatus(projectId, ProjectStatus) {
+//   const { data, error } = await supabase
+//     .from("projects")
+//     .update({ status: ProjectStatus })
+//     .eq("id", projectId);
+
+//   if (error) {
+//     console.error(error);
+//   }
+// }
+
+
+async function changeProjectStatus(projectId, status) {
+  const { error } = await supabase
+    .from("projects")
+    .update({ status })
+    .eq("id", projectId);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  // ✅ update UI instantly
+  setProjects((prev) =>
+    prev.map((p) =>
+      p.id === projectId ? { ...p, status } : p
+    )
+  );
+}
+
+
+
+   // -----------------------------
+  // Project Status change
+  // -----------------------------
+//   useEffect(() => {
+//   if (ProjectStatus) {
+//     changeProjectStatus(project.id, ProjectStatus);
+//   }
+// }, [project.id, ProjectStatus]);
+
 
 // const handleSubmitProject = async (e) => {
 //   e.preventDefault();
@@ -644,7 +693,37 @@ const handleSubmitProject = async (e) => {
               </td>
 
               <td className="actions-cell">
-                <button className="btn-view">👁️</button>
+                <div className="Project-actions">
+                                      {/* <select
+                                        value={ProjectStatus}
+                                        onChange={(e) => {
+                                          const value = e.target.value;
+                                          setProjectStatus(value);
+                                          changeProjectStatus(project.id, value);
+                                        }}
+                                      >
+
+                          <option value="nouveau">nouveau</option>
+                          <option value="termine">termine</option>
+                          <option value="en_cours">en_cours</option>
+                          <option value="annuler">annuler</option>
+
+                </select> */}
+
+                                <select
+                  value={project.status || ""}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    changeProjectStatus(project.id, value);
+                  }}
+                >
+                  <option value="nouveau">nouveau</option>
+                  <option value="termine">termine</option>
+                  <option value="en_cours">en_cours</option>
+                  <option value="annuler">annuler</option>
+                </select>
+                                      
+                </div>
                 <button className="btn-delete">🗑️</button>
               </td>
             </tr>

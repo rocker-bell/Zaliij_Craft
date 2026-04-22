@@ -108,7 +108,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
           <div className="modal-input-group">
             <label>Budget estimé *</label>
             <select name="Budget" value={formData.Budget} onChange={handleChange}>
-              <option value="">Sélectionnez une fourchette</option>
+              <option value="">Sélectionnez votre budget estimé</option>
               <option value="5 000 - 20 000 MAD">5 000 - 20 000 MAD</option>
               <option value="20 000 - 50 000 MAD">20 000 - 50 000 MAD</option>
               <option value="50 000+ MAD">50 000+ MAD</option>
@@ -121,7 +121,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
           </div>
 
           <button type="submit" className="modal-submit-btn">
-            🚀 Envoyer la demande
+             Envoyer la demande
           </button>
         </form>
       </div>

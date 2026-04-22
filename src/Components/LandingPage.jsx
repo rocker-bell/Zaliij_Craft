@@ -3,10 +3,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../Styles/LandingPage.css";
 import ProjectCard from "../utils/ProjectCard.jsx";
+import QuoteModal from "../utils/QuoteModal";
 
 
 const LandingPage = () => {
-    
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="zellige-landing">
@@ -30,8 +31,13 @@ const LandingPage = () => {
           </p>
 
           <div className="hero-btns">
-            <button className="btn-primary">Demander un devis</button>
-            <button className="btn-secondary">En savoir plus</button>
+            <button
+        className="btn-primary"
+        onClick={() => setIsModalOpen(true)}
+      >
+        Demander un devis
+      </button>
+            <Link to="/about" className="btn-secondary">Qui sommes-nous ?</Link>
           </div>
         </div>
 
@@ -100,7 +106,10 @@ const LandingPage = () => {
         <Link to="/about" className="btn-primary">Contactez-nous</Link>
       </section>
 
-    
+    <QuoteModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
 
     </div>
   );
