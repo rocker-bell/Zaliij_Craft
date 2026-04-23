@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import "../Styles/AdminDashboard.css";
 import { useNavigate, Link } from "react-router-dom";
 import supabase from "../utils/supabase";
-import {useModal} from "../utils/ModalContext"
+import {useModal} from "../utils/ModalContext";
+import StatistiquesChart from "./statistiquesChart";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -23,6 +24,8 @@ const [statistiques, setStatistiques] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [chartData, setChartData] = useState(null);
+const [barData, setBarData] = useState(null);
   
 
   const [newProject, setNewProject] = useState({
@@ -120,16 +123,16 @@ useEffect(() => {
     date: new Date().toISOString()
   }));
 
-  const fakeStats = [
-    { label: "Total revenus", value: "120,000 MAD" },
-    { label: "Exports", value: "35" },
-    { label: "Factures payées", value: "22" },
-    { label: "Projets actifs", value: projects.length }
-  ];
+  // const fakeStats = [
+  //   { label: "Total revenus", value: "120,000 MAD" },
+  //   { label: "Exports", value: "35" },
+  //   { label: "Factures payées", value: "22" },
+  //   { label: "Projets actifs", value: projects.length }
+  // ];
 
   // setExports(fakeExports);
   setFactures(fakeFactures);
-  setStatistiques(fakeStats);
+  // setStatistiques(fakeStats);
 }, []); // ← IMPORTANT
 
 
@@ -454,6 +457,35 @@ async function changeExportsStatus(exportId, status) {
 
   return () => clearInterval(interval);
 }, []);
+
+
+useEffect(() => {
+  const totalQuotes = quotes.length;
+  const totalProjects = projects.length;
+  const totalExports = exports.length;
+  const totalContacts = contacts.length;
+
+  setChartData({
+    labels: ["Quotes", "Projects", "Exports", "Contacts"],
+    datasets: [
+      {
+        data: [totalQuotes, totalProjects, totalExports, totalContacts],
+        backgroundColor: ["#3b82f6", "#10b981", "#f59e0b", "#ef4444"],
+      },
+    ],
+  });
+
+  setBarData({
+    labels: ["Quotes", "Projects", "Exports", "Contacts"],
+    datasets: [
+      {
+        label: "Activity",
+        data: [totalQuotes, totalProjects, totalExports, totalContacts],
+        backgroundColor: "#6366f1",
+      },
+    ],
+  });
+}, [quotes, projects, exports, contacts]);
 
   // -----------------------------
   // LOADING
@@ -1059,7 +1091,7 @@ async function changeExportsStatus(exportId, status) {
 
 
 
-{activeTab === "statistiques" && (
+{/* {activeTab === "statistiques" && (
   <section className="section">
     <h2>Statistiques</h2>
 
@@ -1071,6 +1103,21 @@ async function changeExportsStatus(exportId, status) {
         </div>
       ))}
     </div>
+  </section>
+)} */}
+
+{activeTab === "statistiques" && (
+  <section className="section">
+    <h2>Statistiques</h2>
+
+    {/* <StatistiquesChart
+      pieData={chartData}
+      barData={revenueData}
+    /> */}
+    <StatistiquesChart
+  pieData={chartData}
+  barData={barData}
+/>
   </section>
 )}
 
