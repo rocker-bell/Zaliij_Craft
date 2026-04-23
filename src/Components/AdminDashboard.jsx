@@ -136,44 +136,44 @@ useEffect(() => {
   // -----------------------------
   // FETCH DATA
   // -----------------------------
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       setLoading(true);
 
-      const { data: quotesData, error: quotesError } = await supabase
-        .from("quotes")
-        .select("*")
-        .order("id", { ascending: false });
+//       const { data: quotesData, error: quotesError } = await supabase
+//         .from("quotes")
+//         .select("*")
+//         .order("id", { ascending: false });
 
-      const { data: contactsData, error: contactsError } = await supabase
-        .from("contactus")
-        .select("*")
-        .order("id", { ascending: false });
+//       const { data: contactsData, error: contactsError } = await supabase
+//         .from("contactus")
+//         .select("*")
+//         .order("id", { ascending: false });
 
-      const {data: projectsData, error: projectsError} = await supabase
-        .from("projects")
-        .select("*")
-        .order("id", {ascending:false});
+//       const {data: projectsData, error: projectsError} = await supabase
+//         .from("projects")
+//         .select("*")
+//         .order("id", {ascending:false});
 
-      const {data: exportsData, error: exportsError} = await supabase
-        .from("exports")
-        .select("*")
-        .order("created_at", {ascending: false});
+//       const {data: exportsData, error: exportsError} = await supabase
+//         .from("exports")
+//         .select("*")
+//         .order("created_at", {ascending: false});
       
 
-      if (!quotesError) setQuotes(quotesData || []);
-      if (!contactsError) setContacts(contactsData || []);
-      if (!projectsError) setProjects(projectsData || []);
-      if (!exportsError) setExports(exportsData || []);
+//       if (!quotesError) setQuotes(quotesData || []);
+//       if (!contactsError) setContacts(contactsData || []);
+//       if (!projectsError) setProjects(projectsData || []);
+//       if (!exportsError) setExports(exportsData || []);
 
-      console.log("exportsData:", exportsData);
-console.log("exportsError:", exportsError);
+//       console.log("exportsData:", exportsData);
+// console.log("exportsError:", exportsError);
 
-      setLoading(false);
-    };
+//       setLoading(false);
+//     };
 
-    fetchData();
-  }, []);
+//     fetchData();
+//   }, []);
 
 
   // -----------------------------
@@ -411,6 +411,49 @@ async function changeExportsStatus(exportId, status) {
   //   alert("new project click")
   // }
 
+
+  useEffect(() => {
+  let interval;
+
+  const fetchData = async () => {
+    setLoading(true);
+
+    const { data: quotesData } = await supabase
+      .from("quotes")
+      .select("*")
+      .order("id", { ascending: false });
+
+    const { data: contactsData } = await supabase
+      .from("contactus")
+      .select("*")
+      .order("id", { ascending: false });
+
+    const { data: projectsData } = await supabase
+      .from("projects")
+      .select("*")
+      .order("id", { ascending: false });
+
+    const { data: exportsData } = await supabase
+      .from("exports")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (quotesData) setQuotes(quotesData);
+    if (contactsData) setContacts(contactsData);
+    if (projectsData) setProjects(projectsData);
+    if (exportsData) setExports(exportsData);
+
+    setLoading(false);
+  };
+
+  fetchData(); // initial load
+
+  interval = setInterval(() => {
+    fetchData(); // auto refresh
+  }, 10000);
+
+  return () => clearInterval(interval);
+}, []);
 
   // -----------------------------
   // LOADING

@@ -76,21 +76,62 @@ const OrderStatusMap = () => {
         return data;
     }
 
-    useEffect(() => {
-    async function loadData() {
-        if (id) {
-            const exportData = await FetchExport(id);
-            setExport(exportData);
+    const handleStatusChange = async (newStatus) => {
+    setExportStatus(newStatus);
 
-            if (Array.isArray(exportData) && exportData.length > 0) {
-                const status = exportData[0].status;
-                setExportStatus(status);
-                console.log("status:", status);
-            }
+    const { error } = await supabase
+        .from("exports")
+        .update({ status: newStatus })
+        .eq("id", id);
+
+    if (error) {
+        console.error(error);
+    }
+};
+
+//     useEffect(() => {
+//     async function loadData() {
+//         if (id) {
+//             const exportData = await FetchExport(id);
+//             setExport(exportData);
+
+//             if (Array.isArray(exportData) && exportData.length > 0) {
+//                 const status = exportData[0].status;
+//                 setExportStatus(status);
+//                 console.log("status:", status);
+//             }
+//         }
+//     }
+
+//     loadData();
+// }, [id]);
+
+useEffect(() => {
+    let interval;
+
+    async function loadData() {
+        if (!id) return;
+
+        const exportData = await FetchExport(id);
+        setExport(exportData);
+
+        if (Array.isArray(exportData) && exportData.length > 0) {
+            const status = exportData[0].status;
+            setExportStatus(status);
         }
     }
 
+    // initial load
     loadData();
+
+    // live refresh every 5 seconds
+    interval = setInterval(() => {
+        loadData();
+    }, 5000);
+
+    // cleanup
+    return () => clearInterval(interval);
+
 }, [id]);
 
     return (
@@ -98,7 +139,7 @@ const OrderStatusMap = () => {
             <h1>OrderStatusMap</h1>
             <p>OrderId = {id}</p>
 
-            {exports.map((order) => (
+            {/* {exports.map((order) => (
                 <div key={order.id}>
                     <p>{order.client}</p>
                     <p>{order.product}</p>
@@ -107,7 +148,7 @@ const OrderStatusMap = () => {
                     <p>{order.status}</p>
                     <p>{order.created_at}</p>
                 </div>
-            ))}
+            ))} */}
 
 
             <div className="exports-status">
@@ -126,10 +167,23 @@ const OrderStatusMap = () => {
                 </div> */}
 
                 <div className="status-wrapper">
-    <span className={`export-cercle-status pending ${exportStatus === "pending" ? "active" : ""}`}></span>
-    <span className={`export-cercle-status en_route ${exportStatus === "en_route" ? "active" : ""}`}></span>
-    <span className={`export-cercle-status a_la_diwan ${exportStatus === "a_la_diwan" ? "active" : ""}`}></span>
-    <span className={`export-cercle-status chez_la_poste ${exportStatus === "chez_la_poste" ? "active" : ""}`}></span>
+    <span 
+    className={`export-cercle-status pending ${exportStatus === "pending" ? "active" : ""}`}
+                onClick={() => handleStatusChange("pending")}
+
+    ></span>
+    <span className={`export-cercle-status en_route ${exportStatus === "en_route" ? "active" : ""}`}
+                onClick={() => handleStatusChange("en_route")}
+
+    ></span>
+    <span className={`export-cercle-status a_la_diwan ${exportStatus === "a_la_diwan" ? "active" : ""}`}
+            onClick={() => handleStatusChange("a_la_diwan")}
+
+    ></span>
+    <span className={`export-cercle-status chez_la_poste ${exportStatus === "chez_la_poste" ? "active" : ""}`}
+        onClick={() => handleStatusChange("chez_la_poste")}
+
+    ></span>
 </div>
 
 <div className="exports-liveStatus-wrapper">

@@ -101,6 +101,7 @@ import ScrollToTop from "./utils/ScrollToTop";
 import LoginPage from "./Components/LoginPage.jsx";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import OrderStatusMap from "./Components/OrderStatusMap.jsx";
+import ClientOrderCheck from "./Components/Client_OrderCheck.jsx";
 const App = () => {
   const location = useLocation();
 
@@ -131,6 +132,7 @@ const App = () => {
         {/* LOGIN */}
         <Route path="/LoginPage" element={<LoginPage />} />
         <Route path="/Order/:id" element={<OrderStatusMap/>} />
+        <Route path="/OrderInformations" element={<ClientOrderCheck/>} />
       </Routes>
     </>
   );
