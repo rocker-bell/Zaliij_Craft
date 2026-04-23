@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Styles/AdminDashboard.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import supabase from "../utils/supabase";
 import {useModal} from "../utils/ModalContext"
 
@@ -21,6 +21,8 @@ const [statistiques, setStatistiques] = useState([]);
   const [Filter, setFilter] = useState('');
 
   const [showModal, setShowModal] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
 
   const [newProject, setNewProject] = useState({
@@ -30,6 +32,15 @@ const [statistiques, setStatistiques] = useState([]);
     status: "nouveau",
     allocated_date: ""
   });
+
+
+  const [newExport, setNewExport] = useState({
+  client: "",
+  product: "",
+  country: "",
+  amount: "",
+  status: "pending",
+});
 
     // const [ProjectStatus, setProjectStatus] = useState("")
 
@@ -92,14 +103,14 @@ const [statistiques, setStatistiques] = useState([]);
 
 
 useEffect(() => {
-  const fakeExports = Array.from({ length: 12 }, (_, i) => ({
-    id: i + 1,
-    client: "Client " + (i + 1),
-    product: ["Tapis", "Zellige", "Bois"][i % 3],
-    country: ["France", "Espagne", "USA"][i % 3],
-    amount: Math.floor(Math.random() * 10000) + " €",
-    date: new Date().toISOString()
-  }));
+  // const fakeExports = Array.from({ length: 12 }, (_, i) => ({
+  //   id: i + 1,
+  //   client: "Client " + (i + 1),
+  //   product: ["Tapis", "Zellige", "Bois"][i % 3],
+  //   country: ["France", "Espagne", "USA"][i % 3],
+  //   amount: Math.floor(Math.random() * 10000) + " €",
+  //   date: new Date().toISOString()
+  // }));
 
   const fakeFactures = Array.from({ length: 10 }, (_, i) => ({
     id: i + 1,
@@ -116,7 +127,7 @@ useEffect(() => {
     { label: "Projets actifs", value: projects.length }
   ];
 
-  setExports(fakeExports);
+  // setExports(fakeExports);
   setFactures(fakeFactures);
   setStatistiques(fakeStats);
 }, []); // ← IMPORTANT
@@ -143,11 +154,20 @@ useEffect(() => {
         .from("projects")
         .select("*")
         .order("id", {ascending:false});
+
+      const {data: exportsData, error: exportsError} = await supabase
+        .from("exports")
+        .select("*")
+        .order("created_at", {ascending: false});
       
 
       if (!quotesError) setQuotes(quotesData || []);
       if (!contactsError) setContacts(contactsData || []);
       if (!projectsError) setProjects(projectsData || []);
+      if (!exportsError) setExports(exportsData || []);
+
+      console.log("exportsData:", exportsData);
+console.log("exportsError:", exportsError);
 
       setLoading(false);
     };
@@ -306,6 +326,86 @@ const handleSubmitProject = async (e) => {
   const closeModal = () => {
   setShowModal(false);
 };
+
+// Handle delete project
+
+
+async function handleDeleteProject(projectId) {
+  const { error } = await supabase
+    .from("projects")
+    .delete()
+    .eq("id", projectId);
+
+  if (error) {
+    console.error("Delete error:", error);
+    alert("Failed to delete project");
+    return;
+  }
+
+  // ✅ Remove from UI instantly
+  setProjects((prev) => prev.filter((p) => p.id !== projectId));
+}
+
+
+// async function handleAddNewExport() {
+//   alert('Ajouter new export')
+// }
+
+async function handleAddNewExport() {
+  const { error } = await supabase
+    .from("exports")
+    .insert([newExport]);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  setExports((prev) => [...prev, newExport]);
+
+    setNewExport({
+       client: "",
+  product: "",
+  country: "",
+  amount: "",
+  status: "",
+    })
+
+
+     
+
+
+
+  showToast('success', 'export enregistrer avec success')
+  setTimeout(() => {
+      setIsModalOpen(false)
+  },7000)
+  
+}
+
+
+async function changeExportsStatus(exportId, status) {
+  console.log('exportId', exportId)
+  console.log('status', status)
+  const { error } = await supabase
+    .from("exports")
+    .update({ status })
+    .eq("id", exportId);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  // update UI instantly
+  setExports((prev) =>
+    prev.map((item) =>
+      item.id === exportId ? { ...item, status } : item
+    )
+  );
+
+  
+}
 
   // const handleNewProject = () => {
   //   alert("new project click")
@@ -724,7 +824,20 @@ const handleSubmitProject = async (e) => {
                 </select>
                                       
                 </div>
-                <button className="btn-delete">🗑️</button>
+                               <button
+  className="btn-delete"
+  onClick={() => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this project?"
+    );
+
+    if (confirmed) {
+      handleDeleteProject(project.id);
+    }
+  }}
+>
+  🗑️
+</button>
               </td>
             </tr>
           ))}
@@ -754,16 +867,22 @@ const handleSubmitProject = async (e) => {
 
             {activeTab === "exports" && (
   <section className="section">
-    <h2>Exports</h2>
+    <div className="exports-tab-header">
+      <h2>Exports</h2>
+      <button className="btn-add-export" onClick={(e) => setIsModalOpen(true)}>Ajouter Export</button>
+    </div>
 
-    <table className="devis-table">
+    {/* <table className="devis-table">
       <thead>
         <tr>
           <th>Client</th>
           <th>Produit</th>
           <th>Pays</th>
+
           <th>Montant</th>
           <th>Date</th>
+          <th>status</th>
+          <th>actions</th>
         </tr>
       </thead>
 
@@ -777,8 +896,87 @@ const handleSubmitProject = async (e) => {
             <td>{new Date(e.date).toLocaleDateString()}</td>
           </tr>
         ))}
+
+        {isModalOpen && (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      
+      <h2>Add New Export</h2>
+
+      <input placeholder="Client" />
+      <input placeholder="Produit" />
+      <input placeholder="Pays" />
+      <input placeholder="Montant" />
+
+      <div className="modal-actions">
+        <button onClick={() => setIsModalOpen(false)}>
+          Cancel
+        </button>
+
+        <button onClick={handleAddNewExport}>
+          Save
+        </button>
+      </div>
+
+    </div>
+  </div>
+)}
       </tbody>
-    </table>
+    </table> */}
+    <table className="devis-table">
+  <thead>
+    <tr>
+      <th>Client</th>
+      <th>Produit</th>
+      <th>Pays</th>
+      <th>Montant</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {paginate(exports, exportsPage).map((exportOrder) => (
+      <tr key={exportOrder.id}>
+        <td>{exportOrder.client}</td>
+        <td>{exportOrder.product}</td>
+        <td>{exportOrder.country}</td>
+        <td>{exportOrder.amount}</td>
+        <td>{new Date(exportOrder.created_at).toLocaleDateString()}</td>
+        <td>{exportOrder.status}</td>
+        <td>
+              {/* <select name="" id="">
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+              </select> */}
+
+                    <select
+                  value={exportOrder.status || ""}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    changeExportsStatus(exportOrder.id, value);
+                  }}
+                >
+                  <option value="pending">pending</option>
+                  <option value="en_route">en route</option>
+                  <option value="a_la_diwan">a la diwan</option>
+                  <option value="chez_la_poste">chez_la_poste</option>
+                </select>
+
+
+              <Link to={`/Order/${exportOrder.id}`}>
+                  LiveMap  
+              </Link>
+
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+        
+
   </section>
 )}
 
@@ -887,6 +1085,61 @@ const handleSubmitProject = async (e) => {
             </div>
           </div>
         )}
+
+
+
+        {isModalOpen && (
+  <div className="modal-overlay">
+    <div className="modal">
+
+      <h2>Add New Export</h2>
+
+      <input
+        placeholder="Client"
+        value={newExport.client}
+        onChange={(e) =>
+          setNewExport({ ...newExport, client: e.target.value })
+        }
+      />
+
+      <input
+        placeholder="Produit"
+        value={newExport.product}
+        onChange={(e) =>
+          setNewExport({ ...newExport, product: e.target.value })
+        }
+      />
+
+      <input
+        placeholder="Pays"
+        value={newExport.country}
+        onChange={(e) =>
+          setNewExport({ ...newExport, country: e.target.value })
+        }
+      />
+
+      <input
+        placeholder="Montant"
+        type="number"
+        value={newExport.amount}
+        onChange={(e) =>
+          setNewExport({ ...newExport, amount: e.target.value })
+        }
+      />
+
+      <div className="modal-actions">
+        <button className="cancel-export" onClick={() => setIsModalOpen(false)}>
+          Cancel
+        </button>
+
+        <button className="btn-primary" onClick={handleAddNewExport}>
+          Save
+        </button>
+      </div>
+
+    </div>
+  </div>
+)}
     </div>
   );
 };

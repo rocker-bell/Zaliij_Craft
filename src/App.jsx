@@ -100,6 +100,7 @@ import PublicLayout from "./utils/PublicLayout.jsx";
 import ScrollToTop from "./utils/ScrollToTop";
 import LoginPage from "./Components/LoginPage.jsx";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import OrderStatusMap from "./Components/OrderStatusMap.jsx";
 const App = () => {
   const location = useLocation();
 
@@ -129,6 +130,7 @@ const App = () => {
 
         {/* LOGIN */}
         <Route path="/LoginPage" element={<LoginPage />} />
+        <Route path="/Order/:id" element={<OrderStatusMap/>} />
       </Routes>
     </>
   );

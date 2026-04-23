@@ -1,0 +1,130 @@
+.OrderStatusMap-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    border: 3px dashed black;
+}
+
+.exports-status {
+    margin-top: 100px;
+    width: 100%;
+    min-height: 600px;
+    border: 3px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+    
+
+}
+
+.status-wrapper {
+    width: 50%;
+    min-height: 5px;
+    max-height: 5px;
+    background-color: black;
+    position: absolute;
+    border-radius: 50px;
+    
+    border: 1px dashed black;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    
+
+
+}
+
+.export-cercle-status {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: blue;
+    bottom: 25px;
+    border: 5px solid white;
+}
+
+.export-cercle-status:hover {
+    transform: scale(1.5);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    
+
+}
+
+/* .export-cercle-status:hover .Live_status {
+    transform: scale(2);
+} */
+
+/* .exports-status:has(.export-cercle-status:hover) .Live_status {
+    transform: scale(1.5);
+   
+} */
+
+.export-cercle-status.active {
+    background-color: green;
+    transform: scale(1.5);
+}
+
+.Live_status.active {
+    color: green;
+    transform: scale(1.3);
+}
+
+.Live_status {
+    transition: all 0.3s ease;
+    color: black;
+}
+
+
+
+
+
+/* .exports-status:has(.export-cercle-status.en_cours:hover)
+.Live_status.en_cours {
+    transform: scale(1.5);
+    color: red;
+}
+
+
+.exports-status:has(.export-cercle-status.en_route:hover)
+.Live_status.en_route {
+    transform: scale(1.5);
+    color: blue;
+}
+
+
+.exports-status:has(.export-cercle-status.a_la_diwan:hover)
+.Live_status.a_la_diwan {
+    transform: scale(1.5);
+    color: green;
+}
+
+
+.exports-status:has(.export-cercle-status.chez_la_poste:hover)
+.Live_status.chez_la_poste {
+    transform: scale(1.5);
+    color: orange;
+} */
+
+.exports-liveStatus-wrapper {
+    width: 50%;
+    min-height: 5px;
+    max-height: 5px;
+    /* background-color: black; */
+    position: relative;
+    border-radius: 50px;
+    
+    /* border: 1px dashed black; */
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    margin-top: 100px;
+    
+}
+
