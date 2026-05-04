@@ -1698,7 +1698,8 @@ useEffect(() => {
       >
         <option value="active">Active</option>
         <option value="inactive">Inactive</option>
-        <option value="on_leave">On leave</option>
+        <option value="occupee">Occupee</option>
+        <option value="en_vacances">En Vacances</option>
       </select>
 
       <button onClick={handleUpdateWorker}>Save</button>
