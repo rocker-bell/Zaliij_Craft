@@ -381,6 +381,14 @@
   cursor: pointer;
 }
 
+.Landing-topbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 5px;
+}
+
 /* Responsivité Mobile */
 @media (max-width: 768px) {
   .footer-container {

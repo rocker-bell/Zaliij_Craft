@@ -12,6 +12,8 @@ import { ReceiptText } from "lucide-react";
 import { ChartNoAxesCombined } from "lucide-react";
 import { Trash } from "lucide-react";
 import { MapPinned } from "lucide-react";
+import { Activity } from "lucide-react";
+import { BicepsFlexed } from "lucide-react";
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
@@ -21,6 +23,8 @@ const AdminDashboard = () => {
   const [quotes, setQuotes] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [ActiveProjects, setActiveProject] = useState([]);
+  const [workingHand, setWorkingHand] = useState([]);
   const [exports, setExports] = useState([]);
 const [factures, setFactures] = useState([]);
 const [statistiques, setStatistiques] = useState([]);
@@ -33,8 +37,10 @@ const [statistiques, setStatistiques] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [chartData, setChartData] = useState(null);
 const [barData, setBarData] = useState(null);
-  
+const [isWorkerModalOpen, setIsWorkerModalOpen] = useState(false);  
 
+
+  const [workers, setWorkers] = useState([]);
   const [newProject, setNewProject] = useState({
     name: "",
     type: "",
@@ -44,6 +50,106 @@ const [barData, setBarData] = useState(null);
   });
 
 
+
+//   const handleAddNewWorker = () => {
+//   if (!newWorker.full_name || !newWorker.age || !newWorker.occupation) {
+//     alert("Please fill all fields");
+//     return;
+//   }
+
+//   const workerToAdd = {
+//     ...newWorker,
+//     id: Date.now(), // temporary id
+//   };
+
+//   setWorkers((prev) => [...prev, workerToAdd]);
+
+//   // reset form
+//   setNewWorker({
+//     full_name: "",
+//     age: "",
+//     occupation: "",
+//     status: "active",
+//   });
+
+//   // close modal
+//   setIsWorkerModalOpen(false);
+// };
+
+      const [selectedWorker, setSelectedWorker] = useState(null);
+const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+const [projectToAssign, setProjectToAssign] = useState(null);
+
+  const handleAddNewWorker = async () => {
+  if (!newWorker.full_name) {
+    alert("Full name is required");
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from("workers") // 👈 your table name
+    .insert([
+      {
+        full_name: newWorker.full_name,
+        age: newWorker.age ? parseInt(newWorker.age) : null,
+        occupation: newWorker.occupation || null,
+        status: newWorker.status || "active",
+      },
+    ])
+    .select(); // returns inserted row
+
+  if (error) {
+    console.error("Insert error:", error.message);
+    alert("Failed to add worker");
+    return;
+  }
+
+  // update UI state with DB result
+  setWorkers((prev) => [...prev, data[0]]);
+
+  // reset form
+  setNewWorker({
+    full_name: "",
+    age: "",
+    occupation: "",
+    status: "active",
+  });
+
+  setIsWorkerModalOpen(false);
+};  
+
+const openEditModal = (worker) => {
+  setSelectedWorker(worker);
+  setIsEditModalOpen(true);
+};
+
+const handleUpdateWorker = async () => {
+  const { error } = await supabase
+    .from("workers")
+    .update({
+      full_name: selectedWorker.full_name,
+      age: selectedWorker.age,
+      occupation: selectedWorker.occupation,
+      status: selectedWorker.status,
+    })
+    .eq("id", selectedWorker.id);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  setWorkers((prev) =>
+    prev.map((w) =>
+      w.id === selectedWorker.id ? selectedWorker : w
+    )
+  );
+
+  setIsEditModalOpen(false);
+};
+
   const [newExport, setNewExport] = useState({
   client: "",
   product: "",
@@ -51,6 +157,56 @@ const [barData, setBarData] = useState(null);
   amount: "",
   status: "pending",
 });
+
+const openAssignProjectModal = (worker) => {
+  setSelectedWorker(worker);
+  setIsProjectModalOpen(true);
+};
+
+const handleAssignProject = async (projectId) => {
+  const project = projects.find((p) => p.id === projectId);
+
+  const { error } = await supabase
+    .from("workers")
+    .update({
+      project_id: projectId,
+      project_name: project?.name, // optional
+    })
+    .eq("id", selectedWorker.id);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  setWorkers((prev) =>
+    prev.map((w) =>
+      w.id === selectedWorker.id
+        ? {
+            ...w,
+            project_id: projectId,
+            project_name: project?.name,
+          }
+        : w
+    )
+  );
+
+  setIsProjectModalOpen(false);
+};
+
+const handleDeleteWorker = async (id) => {
+  const { error } = await supabase
+    .from("workers")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  setWorkers((prev) => prev.filter((w) => w.id !== id));
+};
 
     // const [ProjectStatus, setProjectStatus] = useState("")
 
@@ -65,7 +221,8 @@ const [barData, setBarData] = useState(null);
   const [exportsPage, setexportsPage] = useState(1);
   const [facturesPage, setFacturesPage] = useState(1);
   const [statistiquesPage, setStatistiquesPage] = useState(1);
-
+  const [ActiveProjectPage, setActiveProjectPage] = useState(1);
+  const [workingHandPage, setWorkingHandPage] = useState(1);
 
     const paginate = (data, page) => {
     const start = (page - 1) * ITEMS_PER_PAGE;
@@ -76,6 +233,13 @@ const [barData, setBarData] = useState(null);
   ? projects.filter((p) => p.type === Filter)
   : projects;
 
+
+  const [newWorker, setNewWorker] = useState({
+  full_name: "",
+  age: "",
+  occupation: "",
+  status: "active",
+});
 
     // fake simulation
 
@@ -452,10 +616,16 @@ const Orderexportdetails = (orderId) => {
       .select("*")
       .order("created_at", { ascending: false });
 
+    const { data: workersData } = await supabase
+      .from("workers")
+      .select("*")
+      .order("created_at", { ascending: false });
+
     if (quotesData) setQuotes(quotesData);
     if (contactsData) setContacts(contactsData);
     if (projectsData) setProjects(projectsData);
     if (exportsData) setExports(exportsData);
+    if (workersData) setWorkers(workersData);
 
     setLoading(false);
   };
@@ -572,7 +742,22 @@ useEffect(() => {
           className={`AdminDashboard-sidebar-actions ${activeTab === "projects" ? "tab active" : "tab"}`}
           onClick={() => {setActiveTab("projects"), setProjectsPage(1)}}
         >
-          <Briefcase size={25} color="#4f46e5" strokeWidt={1.5} /> <span className="AdminDashboarrd-sidebar-title">Projects({projects.length})</span>
+          <Briefcase size={25} color="#4f46e5" strokeWidth={1.5} /> <span className="AdminDashboarrd-sidebar-title">Projects({projects.length})</span>
+        </button>
+
+
+        <button
+          className={`AdminDashboard-sidebar-actions ${activeTab === "Projet en cours" ? "tab active" : "tab"}`}
+          onClick={() => {setActiveTab("Projet en cours"), setActiveProjectPage(1)}}
+        >
+          <Activity size={25} color="#4f46e5" strokeWidth={1.5} /> <span className="AdminDashboarrd-sidebar-title">Project en cours({projects.length})</span>
+        </button>
+
+        <button
+          className={`AdminDashboard-sidebar-actions ${activeTab === "main d'oevre" ? "tab active" : "tab"}`}
+          onClick={() => {setActiveTab("main d'oevre"), setWorkingHandPage(1)}}
+        >
+          <BicepsFlexed size={25} color="#4f46e5" strokeWidth={1.5} /> <span className="AdminDashboarrd-sidebar-title">main d'oevre({projects.length})</span>
         </button>
 
          <button
@@ -1103,6 +1288,168 @@ useEffect(() => {
 )}
 
 
+{activeTab === "main d'oevre" && (
+  <section className="section">
+    <div className="workinghand-header">
+    <h2>main d'oevre</h2>
+    <button className="btn-add-workinghand" onClick={(e) => setIsWorkerModalOpen(true)}>Ajouter main d'oevre</button>
+      </div>
+    <table className="devis-table">
+      <thead>
+        <tr>
+          <th>nom complet</th>
+          <th>age</th>
+          <th>occupation</th>
+          <th>status</th>
+          <th>projet associer</th>
+          <th>actions</th>
+          
+          
+        </tr>
+      </thead>
+
+     <tbody>
+  {workers.map((w, i) => (
+    <tr key={i}>
+      <td>{w.full_name}</td>
+      <td>{w.age}</td>
+      <td>{w.occupation}</td>
+      <td>{w.status}</td>
+      <td>{w.project_name}</td>
+      {/* <td>
+            <button>edit</button>
+            <button>delete</button>
+            <button>associer projet</button>
+      </td> */}
+      <td>
+  <button onClick={() => openEditModal(w)}>Edit</button>
+
+  <button onClick={() => handleDeleteWorker(w.id)}>
+    Delete
+  </button>
+
+  <button onClick={() => openAssignProjectModal(w)}>
+    Associer projet
+  </button>
+</td>
+    </tr>
+  ))}
+</tbody>
+    </table>
+  </section>
+)}
+
+
+{/* {activeTab === "Projet en cours" && (
+  <section className="section">
+    <h2>projets en cours</h2>
+
+    <table className="devis-table">
+      <thead>
+        <tr>
+          <th>Client posilobi</th>
+          
+        </tr>
+      </thead>
+
+      <tbody>
+        <td>test batobit</td>
+      </tbody>
+    </table>
+  </section>
+)} */}
+
+{activeTab === "Projet en cours" && (
+  <section className="section">
+    <h2>Projets en cours</h2>
+
+    <table className="devis-table">
+      <thead>
+        <tr>
+          <th>Nom du projet</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>date d'innitiation</th>
+          <th>Date allouée</th>
+          <th>status</th>
+          {/* <th>action</th> */}
+        </tr>
+      </thead>
+
+      <tbody>
+  {paginate(
+    projects.filter((p) => p.status === "en_cours"),
+    ActiveProjectPage
+  ).map((project) => (
+    <tr key={project.id}>
+      <td>
+        <strong>{project.name}</strong>
+      </td>
+
+      <td>{project.type || "-"}</td>
+
+      <td className="description-cell">
+        {project.description || "-"}
+      </td>
+
+      <td>
+        {project.created_at
+          ? new Date(project.created_at).toLocaleDateString()
+          : "-"}
+      </td>
+
+      <td>
+        {project.allocated_date
+          ? new Date(project.allocated_date).toLocaleDateString()
+          : "-"}
+      </td>
+
+      <td>
+        <span className={`status-badge ${project.status}`}>
+          {project.status}
+        </span>
+      </td>
+
+      {/* <td className="actions-cell">
+        <div className="Project-actions">
+          <select
+            value={project.status || ""}
+            onChange={(e) => {
+              changeProjectStatus(project.id, e.target.value);
+            }}
+          >
+            <option value="nouveau">nouveau</option>
+            <option value="termine">termine</option>
+            <option value="en_cours">en_cours</option>
+            <option value="annuler">annuler</option>
+          </select>
+        </div>
+
+       
+      </td> */}
+    </tr>
+  ))}
+</tbody>
+    </table>
+     <div className="pagination">
+  <button
+    disabled={projectsPage === 1}
+    onClick={() => setActiveProjectPage((p) => p - 1)}
+  >
+    ←
+  </button>
+
+  <span>Page {ActiveProjectPage}</span>
+
+  <button
+    disabled={projectsPage * ITEMS_PER_PAGE >= filteredProjects.length}
+    onClick={() => setActiveProjectPage((p) => p + 1)}
+  >
+    →
+  </button>
+</div>
+  </section>
+)}
 
 {/* {activeTab === "statistiques" && (
   <section className="section">
@@ -1239,6 +1586,151 @@ useEffect(() => {
           Save
         </button>
       </div>
+
+    </div>
+  </div>
+)}
+
+{isWorkerModalOpen && (
+  <div className="modal-overlay">
+    <div className="modal">
+
+      <h2>Add New Worker</h2>
+
+      <input
+        placeholder="Nom complet"
+        value={newWorker.full_name}
+        onChange={(e) =>
+          setNewWorker({ ...newWorker, full_name: e.target.value })
+        }
+      />
+
+      <input
+        placeholder="Age"
+        type="number"
+        value={newWorker.age}
+        onChange={(e) =>
+          setNewWorker({ ...newWorker, age: e.target.value })
+        }
+      />
+
+      <input
+        placeholder="Occupation"
+        value={newWorker.occupation}
+        onChange={(e) =>
+          setNewWorker({ ...newWorker, occupation: e.target.value })
+        }
+      />
+
+      <select
+        value={newWorker.status}
+        onChange={(e) =>
+          setNewWorker({ ...newWorker, status: e.target.value })
+        }
+      >
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="on_leave">En Vacances</option>
+      </select>
+
+      <div className="modal-actions">
+        <button
+          className="cancel-export"
+          onClick={() => setIsWorkerModalOpen(false)}
+        >
+          Cancel
+        </button>
+
+        <button className="btn-primary" onClick={handleAddNewWorker}>
+          Save
+        </button>
+      </div>
+
+    </div>
+  </div>
+)}
+
+        {isEditModalOpen && selectedWorker && (
+  <div className="modal-overlay">
+    <div className="modal">
+
+      <h2>Edit Worker</h2>
+
+      <input
+        value={selectedWorker.full_name}
+        onChange={(e) =>
+          setSelectedWorker({
+            ...selectedWorker,
+            full_name: e.target.value,
+          })
+        }
+      />
+
+      <input
+        type="number"
+        value={selectedWorker.age}
+        onChange={(e) =>
+          setSelectedWorker({
+            ...selectedWorker,
+            age: e.target.value,
+          })
+        }
+      />
+
+      <input
+        value={selectedWorker.occupation}
+        onChange={(e) =>
+          setSelectedWorker({
+            ...selectedWorker,
+            occupation: e.target.value,
+          })
+        }
+      />
+
+      <select
+        value={selectedWorker.status}
+        onChange={(e) =>
+          setSelectedWorker({
+            ...selectedWorker,
+            status: e.target.value,
+          })
+        }
+      >
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="on_leave">On leave</option>
+      </select>
+
+      <button onClick={handleUpdateWorker}>Save</button>
+      <button onClick={() => setIsEditModalOpen(false)}>
+        Cancel
+      </button>
+
+    </div>
+  </div>
+)}
+
+{isProjectModalOpen && selectedWorker && (
+  <div className="modal-overlay">
+    <div className="modal">
+
+      <h2>Associer projet</h2>
+
+      <select
+        onChange={(e) => handleAssignProject(e.target.value)}
+      >
+        <option value="">Select project</option>
+
+        {projects.map((p) => (
+          <option key={p.id} value={p.id}>
+            {p.name}
+          </option>
+        ))}
+      </select>
+
+      <button onClick={() => setIsProjectModalOpen(false)}>
+        Cancel
+      </button>
 
     </div>
   </div>
