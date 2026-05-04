@@ -4,7 +4,14 @@ import { useNavigate, Link } from "react-router-dom";
 import supabase from "../utils/supabase";
 import {useModal} from "../utils/ModalContext";
 import StatistiquesChart from "./statistiquesChart";
-
+import { Quote } from "lucide-react";
+import { Contact } from "lucide-react";
+import { Briefcase } from "lucide-react";
+import { Flag } from "lucide-react";
+import { ReceiptText } from "lucide-react";
+import { ChartNoAxesCombined } from "lucide-react";
+import { Trash } from "lucide-react";
+import { MapPinned } from "lucide-react";
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
@@ -410,6 +417,10 @@ async function changeExportsStatus(exportId, status) {
   
 }
 
+const Orderexportdetails = (orderId) => {
+  navigate(`/Order/${orderId}`)
+}
+
   // const handleNewProject = () => {
   //   alert("new project click")
   // }
@@ -541,46 +552,49 @@ useEffect(() => {
       ----------------------------- */}
       <div className="dashboard-tabs">
         <button
-          className={activeTab === "quotes" ? "tab active" : "tab"}
+          className={`AdminDashboard-sidebar-actions ${activeTab === "quotes" ? "tab active" : "tab"}`}
           onClick={() => {setActiveTab("quotes"); setQuotesPage(1)}}
           
         >
-          📄 Quotes ({quotes.length})
+          <Quote size={25} color="#4f46e5" strokeWidth={1.5} />
+          
+             <span className="AdminDashboarrd-sidebar-title">Quotes ({quotes.length})</span>
         </button>
 
         <button
-          className={activeTab === "contacts" ? "tab active" : "tab"}
+          className={`AdminDashboard-sidebar-actions ${activeTab === "contacts" ? "tab active" : "tab"}`}
           onClick={() => {setActiveTab("contacts"); setContactsPage(1)}}
         >
-          ✉️ Contacts ({contacts.length})
+          <Contact size={25} color="#4f46e5" strokeWidth={1.5} /> <span className="AdminDashboarrd-sidebar-title"> Contacts  ({contacts.length})</span>
         </button>
 
           <button
-          className={activeTab === "projects" ? "tab active" : "tab"}
+          className={`AdminDashboard-sidebar-actions ${activeTab === "projects" ? "tab active" : "tab"}`}
           onClick={() => {setActiveTab("projects"), setProjectsPage(1)}}
         >
-          ✉️ Projects({projects.length})
+          <Briefcase size={25} color="#4f46e5" strokeWidt={1.5} /> <span className="AdminDashboarrd-sidebar-title">Projects({projects.length})</span>
         </button>
 
          <button
-          className={activeTab === "exports" ? "tab active" : "tab"}
+          className={`AdminDashboard-sidebar-actions ${activeTab === "exports" ? "tab active" : "tab"}`}
           onClick={() => {setActiveTab("exports"); setexportsPage(1)}}
         >
-          ✉️ exports({exports.length})
+          
+          <Flag size={25} color="#4f46e5" strokeWidth={1.5} /> <span className="AdminDashboarrd-sidebar-title">exports({exports.length})</span>
         </button>
 
          <button
-          className={activeTab === "factures" ? "tab active" : "tab"}
+          className={`AdminDashboard-sidebar-actions  ${activeTab === "factures" ? "tab active" : "tab"}`}
           onClick={() => {setActiveTab("factures"); setFacturesPage(1)}}
 
         >
-          ✉️ factures({factures.length})
+          <ReceiptText size={25} color="#4f46e5" strokeWidth={1.5} />  <span className="AdminDashboarrd-sidebar-title" >factures({factures.length}) </span> 
         </button>
         <button
-          className={activeTab === "statistiques" ? "tab active" : "tab"}
+          className={`AdminDashboard-sidebar-actions ${activeTab === "statistiques" ? "tab active" : "tab"}`}
           onClick={() => {setActiveTab("statistiques"); setStatistiquesPage(1)}}
         >
-          ✉️ statistiques({statistiques.length})
+          <ChartNoAxesCombined size={25} color="#4f46e5" strokeWidth={1.5} /> <span className="AdminDashboarrd-sidebar-title"> statistiques({statistiques.length}) </span>
         </button>
       </div>
 
@@ -604,7 +618,7 @@ useEffect(() => {
                   <th>BUDGET</th>
                   <th>DATE</th>
                   <th>STATUT</th>
-                  <th>ACTIONS</th>
+                  {/* <th>ACTIONS</th> */}
                 </tr>
               </thead>
 
@@ -634,10 +648,10 @@ useEffect(() => {
                       </span>
                     </td>
 
-                    <td className="actions-cell">
+                    {/* <td className="actions-cell">
                       <button className="btn-view">👁️</button>
                       <button className="btn-delete">🗑️</button>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>
@@ -911,7 +925,7 @@ useEffect(() => {
     }
   }}
 >
-  🗑️
+  <Trash />
 </button>
               </td>
             </tr>
@@ -1020,13 +1034,12 @@ useEffect(() => {
         <td>{exportOrder.amount}</td>
         <td>{new Date(exportOrder.created_at).toLocaleDateString()}</td>
         <td>{exportOrder.status}</td>
-        <td>
+        <td className="centered-td">
               {/* <select name="" id="">
                 <option value=""></option>
                 <option value=""></option>
                 <option value=""></option>
               </select> */}
-
                     <select
                   value={exportOrder.status || ""}
                   onChange={(e) => {
@@ -1041,9 +1054,9 @@ useEffect(() => {
                 </select>
 
 
-              <Link to={`/Order/${exportOrder.id}`}>
-                  LiveMap  
-              </Link>
+              
+                  <MapPinned className="MapPinned"  onClick={() => Orderexportdetails(exportOrder.id)}/>
+              
 
         </td>
       </tr>

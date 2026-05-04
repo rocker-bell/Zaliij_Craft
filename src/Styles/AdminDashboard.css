@@ -337,9 +337,16 @@
 
 /* table styles */
 
-
 tr, td {
-  padding: 10px 10px;
+  font-weight: bold;
+}
+
+.centered-td {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  gap: 5px;
 }
 
 
@@ -384,4 +391,24 @@ tr, td {
   justify-content: flex-end;
   gap: 10px;
   margin-top: 15px;
+}
+
+.AdminDashboard-sidebar-actions {
+  display: flex;
+  justify-content: center;
+  align-items: self-end; 
+  gap: 5px; 
+}
+
+.AdminDashboarrd-sidebar-title {
+  font-weight: bolder;
+  
+}
+
+.MapPinned {
+  cursor: pointer;
+}
+
+.MapPinned:hover {
+  color: #48A111;
 }

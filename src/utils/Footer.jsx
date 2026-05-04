@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/LogoFooter.svg";
+import { Phone } from "lucide-react";
+import { Mail } from "lucide-react";
+import { BookImage } from "lucide-react";
+import { MapPin } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -17,9 +21,12 @@ const Footer = () => {
             Fabrication artisanale de zellige marocain depuis 1985. Nous perpétuons l'art ancestral de la mosaïque avec passion pour sublimer vos espaces.
           </p>
           <div className="footer-socials">
-            <a href="#" className="social-icon" aria-label="Instagram">📸</a>
-            <a href="#" className="social-icon" aria-label="Email">✉️</a>
-            <a href="#" className="social-icon" aria-label="Phone">📞</a>
+            {/* <a href="#" className="social-icon" aria-label="Instagram">📸</a> */}
+            <BookImage className="icons" size={20} />
+            {/* <a href="#" className="social-icon" aria-label="Email">✉️</a> */}
+            <Mail className="icons" size={20} />
+            {/* <a href="#" className="social-icon" aria-label="Phone">📞</a> */}
+            <Phone className="icons" size={20} />
           </div>
         </div>
 
@@ -36,9 +43,9 @@ const Footer = () => {
         {/* Colonne 3: Contact Direct */}
         <div className="footer-contact">
           <h4>Contact</h4>
-          <p>📞 +212 660 271 360</p>
-          <p>✉️ contact@zellige-artisan.ma</p>
-          <p>📍 Médina de Fès, Maroc</p>
+          <p className="Pfooter-contact"><Phone size={20} className="icons" /> +212 660 271 360</p>
+          <p className="Pfooter-contact"><Mail size={20} className="icons" /> contact@zellige-artisan.ma</p>
+          <p className="Pfooter-contact"><MapPin size={20} className="icons" />  Médina de Fès, Maroc</p>
         </div>
       </div>
 

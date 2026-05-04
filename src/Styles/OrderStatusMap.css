@@ -128,7 +128,7 @@
     
 } */
 
-/* 
+
 .client-check-loading {
     min-width: 100%;
     min-height: 100vh;
@@ -265,9 +265,9 @@
 .not-found {
     color: red;
     margin-top: 20px;
-} */
+}
 
-
+/* 
 .client-check-wrapper {
     width: 100%;
     min-height: 100vh;
@@ -279,7 +279,7 @@
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* ================= SEARCH ================= */
+
 .search-box {
     display: flex;
     gap: 10px;
@@ -315,7 +315,7 @@
     background: #1f2937;
 }
 
-/* ================= ORDER CARD ================= */
+
 .order-card {
     width: 100%;
     max-width: 650px;
@@ -337,7 +337,7 @@
     color: #4b5563;
 }
 
-/* ================= STATUS TRACK ================= */
+
 .status-wrapper {
     width: 100%;
     max-width: 650px;
@@ -350,7 +350,7 @@
     position: relative;
 }
 
-/* CIRCLES */
+
 .export-cercle-status {
     width: 42px;
     height: 42px;
@@ -364,14 +364,14 @@
 
 }
 
-/* ACTIVE STEP */
+
 .export-cercle-status.active {
     background: #22c55e;
     transform: scale(1.2);
     box-shadow: 0 6px 14px rgba(34,197,94,0.25);
 }
 
-/* ================= LABELS ================= */
+
 .labels {
     width: 100%;
     position: relative;
@@ -387,7 +387,7 @@
     
 }
 
-/* ================= MAP ================= */
+
 .map-section {
     width: 100%;
     max-width: 650px;
@@ -413,7 +413,7 @@
     border: 1px solid #e5e7eb;
 }
 
-/* ================= STATES ================= */
+
 .not-found {
     color: #ef4444;
     margin-top: 20px;
@@ -422,4 +422,4 @@
 .client-check-loading {
     color: #6b7280;
     margin-top: 20px;
-}
+} */

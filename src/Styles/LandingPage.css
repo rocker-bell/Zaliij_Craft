@@ -370,6 +370,17 @@
   color: white;
 }
 
+.Pfooter-contact {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+}
+
+.icons {
+  cursor: pointer;
+}
+
 /* Responsivité Mobile */
 @media (max-width: 768px) {
   .footer-container {
