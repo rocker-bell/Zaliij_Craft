@@ -6,6 +6,11 @@ import "../Styles/ContactPage.css";
 import supabase from "../utils/supabase";
 import { useModal } from "../utils/ModalContext";
 
+import { Phone } from "lucide-react";
+import { Mail } from "lucide-react";
+import { MapPin } from "lucide-react";
+import { Clock } from "lucide-react";
+
 const ContactPage = () => {
   const [formData, setFormData] = useState({
     nom: "",
@@ -105,25 +110,25 @@ const ContactPage = () => {
       {/* CARTES INFO (Contact direct) */}
       <section className="contact-grid-info">
         <div className="info-stat-card">
-          <div className="icon-circle">📞</div>
+          <div className="icon-circle"><Phone size={20} className="icons" /></div>
           <p>Téléphone</p>
           <h3>+212 660 271 360</h3>
           <span>+212 523 123 456</span>
         </div>
         <div className="info-stat-card">
-          <div className="icon-circle">✉️</div>
+          <div className="icon-circle"><Mail size={20} className="icons" /></div>
           <p>Email</p>
           <h3>contact@zellige-artisan.ma</h3>
           <span>info@zellige-artisan.ma</span>
         </div>
         <div className="info-stat-card">
-          <div className="icon-circle">📍</div>
+          <div className="icon-circle"><MapPin size={20} className="icons" /></div>
           <p>Adresse</p>
           <h3>Médina de Fès</h3>
           <span>Rue des Artisans, Fès 30000</span>
         </div>
         <div className="info-stat-card">
-          <div className="icon-circle">🕒</div>
+          <div className="icon-circle"><Clock size={20} className="icons" /></div>
           <p>Horaires</p>
           <h3>Lun - Sam: 9h00 - 18h00</h3>
           <span>Dimanche: Sur rendez-vous</span>
@@ -188,7 +193,7 @@ const ContactPage = () => {
 
           <div className="emergency-box">
             <p>Besoin d'une réponse rapide ?</p>
-            <a href="tel:+212660271360" className="phone-link">📞 +212 660 271 360</a>
+            <a href="tel:+212660271360" className="phone-link"><Phone size={20} /> +212 660 271 360</a>
           </div>
         </aside>
       </section>
