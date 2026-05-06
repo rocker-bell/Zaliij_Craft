@@ -14,7 +14,8 @@ import { Trash } from "lucide-react";
 import { MapPinned } from "lucide-react";
 import { Activity } from "lucide-react";
 import { BicepsFlexed } from "lucide-react";
-import { SquarePen, Pickaxe } from "lucide-react";
+import { SquarePen, Pickaxe, Printer } from "lucide-react";
+import FactureModal from "../utils/FactureModal.jsx";
 import Logo from "../assets/Logo_1.svg";
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const [statistiques, setStatistiques] = useState([]);
   const [chartData, setChartData] = useState(null);
 const [barData, setBarData] = useState(null);
 const [isWorkerModalOpen, setIsWorkerModalOpen] = useState(false);  
-
+const [IsFactureModalOpen, setIsFactureModalOpen] = useState(false);
 
   const [workers, setWorkers] = useState([]);
   const [newProject, setNewProject] = useState({
@@ -51,6 +52,7 @@ const [isWorkerModalOpen, setIsWorkerModalOpen] = useState(false);
     allocated_date: ""
   });
 
+  
 
 
 //   const handleAddNewWorker = () => {
@@ -278,35 +280,35 @@ const handleDeleteWorker = async (id) => {
 // setStatistiques(fakeStats);
 
 
-useEffect(() => {
-  // const fakeExports = Array.from({ length: 12 }, (_, i) => ({
-  //   id: i + 1,
-  //   client: "Client " + (i + 1),
-  //   product: ["Tapis", "Zellige", "Bois"][i % 3],
-  //   country: ["France", "Espagne", "USA"][i % 3],
-  //   amount: Math.floor(Math.random() * 10000) + " €",
-  //   date: new Date().toISOString()
-  // }));
+// useEffect(() => {
+//   // const fakeExports = Array.from({ length: 12 }, (_, i) => ({
+//   //   id: i + 1,
+//   //   client: "Client " + (i + 1),
+//   //   product: ["Tapis", "Zellige", "Bois"][i % 3],
+//   //   country: ["France", "Espagne", "USA"][i % 3],
+//   //   amount: Math.floor(Math.random() * 10000) + " €",
+//   //   date: new Date().toISOString()
+//   // }));
 
-  const fakeFactures = Array.from({ length: 10 }, (_, i) => ({
-    id: i + 1,
-    client: "Client " + (i + 1),
-    total: Math.floor(Math.random() * 20000) + " MAD",
-    status: ["payée", "en attente", "annulée"][i % 3],
-    date: new Date().toISOString()
-  }));
+//   const fakeFactures = Array.from({ length: 10 }, (_, i) => ({
+//     id: i + 1,
+//     client: "Client " + (i + 1),
+//     total: Math.floor(Math.random() * 20000) + " MAD",
+//     status: ["payée", "en attente", "annulée"][i % 3],
+//     date: new Date().toISOString()
+//   }));
 
-  // const fakeStats = [
-  //   { label: "Total revenus", value: "120,000 MAD" },
-  //   { label: "Exports", value: "35" },
-  //   { label: "Factures payées", value: "22" },
-  //   { label: "Projets actifs", value: projects.length }
-  // ];
+//   // const fakeStats = [
+//   //   { label: "Total revenus", value: "120,000 MAD" },
+//   //   { label: "Exports", value: "35" },
+//   //   { label: "Factures payées", value: "22" },
+//   //   { label: "Projets actifs", value: projects.length }
+//   // ];
 
-  // setExports(fakeExports);
-  setFactures(fakeFactures);
-  // setStatistiques(fakeStats);
-}, []); // ← IMPORTANT
+//   // setExports(fakeExports);
+//   setFactures(fakeFactures);
+//   // setStatistiques(fakeStats);
+// }, []); // ← IMPORTANT
 
 
  
@@ -528,6 +530,14 @@ const Orderexportdetails = (orderId) => {
       .from("workers")
       .select("*")
       .order("created_at", { ascending: false });
+
+
+    const { data: facturesData } = await supabase
+      .from("invoices")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (facturesData) setFactures(facturesData);
 
     if (quotesData) setQuotes(quotesData);
     if (contactsData) setContacts(contactsData);
@@ -1115,9 +1125,13 @@ useEffect(() => {
 
 
 
-{activeTab === "factures" && (
+{/* {activeTab === "factures" && (
   <section className="section">
-    <h2>Factures</h2>
+    <div  className="factures-tab-header">
+      <h2>Factures</h2>
+      <button className="btn-add-factures" onClick={(e) => setIsFactureModalOpen(true)}>Ajouter factures</button>
+    </div>
+    
 
     <table className="devis-table">
       <thead>
@@ -1126,6 +1140,7 @@ useEffect(() => {
           <th>Total</th>
           <th>Status</th>
           <th>Date</th>
+          <th>actions</th>
         </tr>
       </thead>
 
@@ -1140,6 +1155,12 @@ useEffect(() => {
               </span>
             </td>
             <td>{new Date(f.date).toLocaleDateString()}</td>
+            <td>
+              <SquarePen size={25} />
+              <Printer size={25} />
+              
+              <Trash size={25} />
+            </td>
           </tr>
         ))}
       </tbody>
@@ -1162,6 +1183,83 @@ useEffect(() => {
     →
   </button>
 </div> 
+  </section>
+)} */}
+
+
+{activeTab === "factures" && (
+  <section className="section">
+    
+    {/* HEADER */}
+    <div className="factures-tab-header">
+      <h2>Factures</h2>
+      <button
+        className="btn-add-factures"
+        onClick={() => setIsFactureModalOpen(true)}
+      >
+        Ajouter factures
+      </button>
+    </div>
+
+    {/* TABLE */}
+    <table className="devis-table">
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {paginate(factures, facturesPage).map((f) => (
+          <tr key={f.id}>
+            <td>{f.client_name}</td>
+            <td>{f.total}</td>
+            <td>
+              <span className={`status-badge ${f.status}`}>
+                {f.status}
+              </span>
+            </td>
+            <td>{new Date(f.created_at).toLocaleDateString()}</td>
+            <td>
+              <SquarePen size={25} />
+              <Printer size={25} />
+              <Trash size={25} />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    {/* PAGINATION */}
+    <div className="pagination">
+      <button
+        disabled={facturesPage === 1}
+        onClick={() => setFacturesPage((p) => p - 1)}
+      >
+        ←
+      </button>
+
+      <span>Page {facturesPage}</span>
+
+      <button
+        disabled={facturesPage * ITEMS_PER_PAGE >= factures.length}
+        onClick={() => setFacturesPage((p) => p + 1)}
+      >
+        →
+      </button>
+    </div>
+
+    {/* ✅ HERE IS THE MODAL (IMPORTANT) */}
+    <FactureModal
+      isOpen={IsFactureModalOpen}
+      onClose={() => setIsFactureModalOpen(false)}
+      
+    />
+
   </section>
 )}
 

@@ -213,7 +213,7 @@
   transition: 0.2s;
 }
 
-.btn-add-export, .btn-add-workinghand {
+.btn-add-export, .btn-add-workinghand, .btn-add-factures {
      background: #ff6b00;
   color: white;
   box-shadow: 0 5px 15px rgba(255, 107, 0, 0.3);
@@ -352,7 +352,7 @@ tr, td {
 
 /* exports */
 
-.exports-tab-header, .workinghand-header {
+.exports-tab-header, .workinghand-header, .factures-tab-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
