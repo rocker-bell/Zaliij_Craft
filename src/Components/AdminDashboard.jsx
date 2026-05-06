@@ -309,49 +309,7 @@ useEffect(() => {
 }, []); // ← IMPORTANT
 
 
-  // -----------------------------
-  // FETCH DATA
-  // -----------------------------
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       setLoading(true);
-
-//       const { data: quotesData, error: quotesError } = await supabase
-//         .from("quotes")
-//         .select("*")
-//         .order("id", { ascending: false });
-
-//       const { data: contactsData, error: contactsError } = await supabase
-//         .from("contactus")
-//         .select("*")
-//         .order("id", { ascending: false });
-
-//       const {data: projectsData, error: projectsError} = await supabase
-//         .from("projects")
-//         .select("*")
-//         .order("id", {ascending:false});
-
-//       const {data: exportsData, error: exportsError} = await supabase
-//         .from("exports")
-//         .select("*")
-//         .order("created_at", {ascending: false});
-      
-
-//       if (!quotesError) setQuotes(quotesData || []);
-//       if (!contactsError) setContacts(contactsData || []);
-//       if (!projectsError) setProjects(projectsData || []);
-//       if (!exportsError) setExports(exportsData || []);
-
-//       console.log("exportsData:", exportsData);
-// console.log("exportsError:", exportsError);
-
-//       setLoading(false);
-//     };
-
-//     fetchData();
-//   }, []);
-
-
+ 
   // -----------------------------
   // LOGOUT
   // -----------------------------
@@ -400,55 +358,6 @@ async function changeProjectStatus(projectId, status) {
   );
 }
 
-
-
-   // -----------------------------
-  // Project Status change
-  // -----------------------------
-//   useEffect(() => {
-//   if (ProjectStatus) {
-//     changeProjectStatus(project.id, ProjectStatus);
-//   }
-// }, [project.id, ProjectStatus]);
-
-
-// const handleSubmitProject = async (e) => {
-//   e.preventDefault();
-
-//   const { error } = await supabase.from("projects").insert([
-//     {
-//       name: newProject.name,
-//       type: newProject.type,
-//       description: newProject.description,
-//       status: newProject.status,
-//       allocated_date: newProject.allocated_date || null,
-//     },
-//   ]);
-
-//   if (error) {
-//     alert("Error creating project");
-//     console.error(error);
-//   } else {
-//     // refresh UI
-//     const { data } = await supabase
-//   .from("projects")
-//   .select("*")
-//   .order("created_at", { ascending: false });
-
-// setProjects(data);
-
-//     // reset form
-//     setNewProject({
-//       name: "",
-//       type: "",
-//       description: "",
-//       status: "nouveau",
-//       allocated_date: "",
-//     });
-
-//     setShowModal(false);
-//   }
-// };
 
     const { showModal: showToast } = useModal();
 
@@ -546,9 +455,6 @@ async function handleAddNewExport() {
   amount: "",
   status: "",
     })
-
-
-     
 
 
 
@@ -1184,6 +1090,23 @@ useEffect(() => {
       </tr>
     ))}
   </tbody>
+   <div className="pagination">
+  <button
+    disabled={exportsPage === 1}
+    onClick={() => setexportsPage((p) => p - 1)}
+  >
+    ←
+  </button>
+
+  <span>Page {exportsPage}</span>
+
+  <button
+    disabled={exportsPage * ITEMS_PER_PAGE >= exports.length}
+    onClick={() => setexportsPage((p) => p + 1)}
+  >
+    →
+  </button>
+</div> 
 </table>
         
 
@@ -1221,6 +1144,24 @@ useEffect(() => {
         ))}
       </tbody>
     </table>
+
+    <div className="pagination">
+  <button
+    disabled={facturesPage === 1}
+    onClick={() => setFacturesPage((p) => p - 1)}
+  >
+    ←
+  </button>
+
+  <span>Page {facturesPage}</span>
+
+  <button
+    disabled={facturesPage * ITEMS_PER_PAGE >= factures.length}
+    onClick={() => setFacturesPage((p) => p + 1)}
+  >
+    →
+  </button>
+</div> 
   </section>
 )}
 
@@ -1275,6 +1216,24 @@ useEffect(() => {
   ))}
 </tbody>
     </table>
+
+     <div className="pagination">
+  <button
+    disabled={workingHandPage === 1}
+    onClick={() => setWorkingHandPage((p) => p - 1)}
+  >
+    ←
+  </button>
+
+  <span>Page {workingHandPage}</span>
+
+  <button
+    disabled={workingHandPage * ITEMS_PER_PAGE >= workingHand.length}
+    onClick={() => setWorkingHandPage((p) => p + 1)}
+  >
+    →
+  </button>
+</div> 
   </section>
 )}
 
@@ -1377,7 +1336,7 @@ useEffect(() => {
     </table>
      <div className="pagination">
   <button
-    disabled={projectsPage === 1}
+    disabled={ActiveProjectPage === 1}
     onClick={() => setActiveProjectPage((p) => p - 1)}
   >
     ←
@@ -1386,7 +1345,7 @@ useEffect(() => {
   <span>Page {ActiveProjectPage}</span>
 
   <button
-    disabled={projectsPage * ITEMS_PER_PAGE >= filteredProjects.length}
+    disabled={ActiveProjectPage * ITEMS_PER_PAGE >= filteredProjects.length}
     onClick={() => setActiveProjectPage((p) => p + 1)}
   >
     →
@@ -1422,6 +1381,24 @@ useEffect(() => {
   pieData={chartData}
   barData={barData}
 />
+
+<div className="pagination">
+  <button
+    disabled={statistiquesPage === 1}
+    onClick={() =>setStatistiquesPage((p) => p - 1)}
+  >
+    ←
+  </button>
+
+  <span>Page {statistiquesPage}</span>
+
+  <button
+    disabled={statistiquesPage * ITEMS_PER_PAGE >= statistiques.length}
+    onClick={() => setStatistiquesPage((p) => p + 1)}
+  >
+    →
+  </button>
+</div>
   </section>
 )}
 
