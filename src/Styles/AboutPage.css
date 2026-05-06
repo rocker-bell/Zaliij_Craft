@@ -112,6 +112,62 @@
   text-align: center;
 }
 
+/* informative paragraphs */
+
+.aboutPage__about p {
+  font-size: 16.5px;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 16px;
+  letter-spacing: 0.2px;
+}
+
+.aboutPage__about h2 {
+  font-size: 34px;
+  margin: 10px 0 20px;
+  line-height: 1.2;
+  color: #111;
+}
+
+.AboutPageSteps_descritpion_container {
+  /* border: 1px solid black; */
+   display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.aboutPage__steps {
+  /* border: 1px dashed black; */
+  width: 100%;
+ 
+}
+
+.aboutPage__steps {
+  
+
+  list-style: none;
+  text-align: none;
+}
+
+.aboutPage__steps li {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: xx-large;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.aboutPage__subtitle {
+  display: inline-block;
+  font-size: larger;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #E76F51;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .aboutPage__grid,
