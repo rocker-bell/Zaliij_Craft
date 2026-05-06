@@ -14,6 +14,8 @@ import { Trash } from "lucide-react";
 import { MapPinned } from "lucide-react";
 import { Activity } from "lucide-react";
 import { BicepsFlexed } from "lucide-react";
+import { SquarePen, Pickaxe } from "lucide-react";
+import Logo from "../assets/Logo_1.svg";
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
@@ -681,10 +683,11 @@ useEffect(() => {
       {/* HEADER */}
       <header className="AdminDashboard-header">
         <div className="admin-brand">
-          <div className="logo-icon-admin"></div>
+          {/* <div className="logo-icon-admin"></div> */}
+          <img src={Logo} alt="" className="logo_representative"/>
           <div>
             <h1>Admin Dashboard</h1>
-            <p>Gestion des devis & messages</p>
+            
           </div>
         </div>
 
@@ -833,10 +836,7 @@ useEffect(() => {
                       </span>
                     </td>
 
-                    {/* <td className="actions-cell">
-                      <button className="btn-view">👁️</button>
-                      <button className="btn-delete">🗑️</button>
-                    </td> */}
+                   
                   </tr>
                 ))}
               </tbody>
@@ -937,69 +937,6 @@ useEffect(() => {
 
      
 
-{/* 
-       {activeTab === "projects" && (
-        <section className="projects-section">
-          <div className="projects-header">
-            <h2>liste des projets</h2>
-            <button>
-                  Nouveau Projet
-            </button>
-            
-          </div>
-
-          <div className="table-wrapper">
-            <table className="projects-table">
-              <thead>
-                <tr>
-                  <th>id</th>
-                  <th>Nom</th>
-                  
-                  <th>TYPE</th>
-                  <th>BUDGET</th>
-                  <th>DATE</th>
-                  <th>STATUT</th>
-                  <th>ACTIONS</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {projects.map((item) => (
-                  <tr key={item.id}>
-                    <td className="client-cell">
-                      <strong>{item.full_name}</strong>
-                      
-                      <span>{item.email}</span>
-                      <span>{item.phone}</span>
-                    </td>
-
-                    <td>{item.project_type}</td>
-
-                    <td>{item.budget_range}</td>
-
-                    <td>
-                      {item.created_at
-                        ? new Date(item.created_at).toLocaleDateString()
-                        : "-"}
-                    </td>
-
-                    <td>
-                      <span className="status-badge">
-                        {item.status || "En attente"}
-                      </span>
-                    </td>
-
-                    <td className="actions-cell">
-                      <button className="btn-view">👁️</button>
-                      <button className="btn-delete">🗑️</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )} */}
       {activeTab === "projects" && (
   <section className="projects-section">
     <div className="projects-header">
@@ -1321,15 +1258,17 @@ useEffect(() => {
             <button>delete</button>
             <button>associer projet</button>
       </td> */}
-      <td>
-  <button onClick={() => openEditModal(w)}>Edit</button>
-
-  <button onClick={() => handleDeleteWorker(w.id)}>
-    Delete
+      <td className="worker-actions-container">
+  <button className="worker-actions" onClick={() => openEditModal(w)}>
+    <SquarePen size={30} />
   </button>
 
-  <button onClick={() => openAssignProjectModal(w)}>
-    Associer projet
+  <button className="worker-actions" onClick={() => handleDeleteWorker(w.id)}>
+    <Trash size={30} />
+  </button>
+
+  <button className="worker-actions" onClick={() => openAssignProjectModal(w)}>
+    <Pickaxe size={30} />
   </button>
 </td>
     </tr>
@@ -1529,7 +1468,7 @@ useEffect(() => {
                 />
 
                 <div className="modal-actions">
-                  <button type="button" onClick={closeModal}>
+                  <button type="button" className="cancel-btn" onClick={closeModal}>
                     Annuler
                   </button>
                   <button type="submit" className="btn-primary">
@@ -1583,7 +1522,7 @@ useEffect(() => {
       />
 
       <div className="modal-actions">
-        <button className="cancel-export" onClick={() => setIsModalOpen(false)}>
+        <button className="cancel-export cancel-btn" onClick={() => setIsModalOpen(false)}>
           Cancel
         </button>
 
@@ -1640,10 +1579,10 @@ useEffect(() => {
 
       <div className="modal-actions">
         <button
-          className="cancel-export"
+          className="cancel-export cancel-btn"
           onClick={() => setIsWorkerModalOpen(false)}
         >
-          Cancel
+          Annuler
         </button>
 
         <button className="btn-primary" onClick={handleAddNewWorker}>
@@ -1708,8 +1647,8 @@ useEffect(() => {
       </select>
 
       <button onClick={handleUpdateWorker}>Save</button>
-      <button onClick={() => setIsEditModalOpen(false)}>
-        Cancel
+      <button className="cancel-btn" onClick={() => setIsEditModalOpen(false)}>
+        Annuler
       </button>
 
     </div>
@@ -1734,8 +1673,8 @@ useEffect(() => {
         ))}
       </select>
 
-      <button onClick={() => setIsProjectModalOpen(false)}>
-        Cancel
+      <button className="cancel-btn" onClick={() => setIsProjectModalOpen(false)}>
+        Annuler
       </button>
 
     </div>

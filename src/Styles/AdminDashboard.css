@@ -412,3 +412,21 @@ tr, td {
 .MapPinned:hover {
   color: #48A111;
 }
+
+.worker-actions {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  padding: 0 5px;
+}
+
+/* .worker-actions-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 5px;
+} */
