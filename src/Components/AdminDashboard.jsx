@@ -17,6 +17,8 @@ import { BicepsFlexed } from "lucide-react";
 import { SquarePen, Pickaxe, Printer } from "lucide-react";
 import FactureModal from "../utils/FactureModal.jsx";
 import Logo from "../assets/Logo_1.svg";
+import jsPDF from "jspdf";
+import LogoFacture from "../images/Facture_Logo.png"
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
@@ -556,6 +558,131 @@ const Orderexportdetails = (orderId) => {
 
   return () => clearInterval(interval);
 }, []);
+
+// facture logic
+
+// const getLogoBase64 = async () => {
+//   const res = await fetch(LogoFacture);
+//   const svgText = await res.text();
+//   return `data:image/svg+xml;base64,${btoa(svgText)}`;
+// };
+
+
+const fetchInvoiceForPrint = async (invoiceId) => {
+  // Get invoice data
+  const { data: invoice } = await supabase
+    .from("invoices")
+    .select("*, invoice_items(*)")
+    .eq("id", invoiceId)
+    .single();
+
+  // Get company info
+  const { data: company } = await supabase
+    .from("company_profile")
+    .select("*")
+    .limit(1)
+    .single();
+
+  return { invoice, company };
+};
+
+// const printInvoice = async (invoiceId) => {
+//   const { invoice, company } = await fetchInvoiceForPrint(invoiceId);
+
+//   if (!invoice || !company) return;
+
+//   const doc = new jsPDF();
+
+//   // Company info
+//   doc.setFontSize(12);
+//   doc.text(company.company_name, 20, 20);
+//   doc.text(company.owner_name, 20, 28);
+//   doc.text(company.role, 20, 36);
+//   doc.text(company.address, 20, 44);
+//   doc.text(company.city, 20, 52);
+
+//   // Invoice info
+//   doc.setFontSize(14);
+//   doc.text(`Invoice: ${invoice.invoice_number}`, 20, 70);
+//   doc.text(`Client: ${invoice.client_name}`, 20, 78);
+//   doc.text(`Date: ${new Date(invoice.created_at).toLocaleDateString()}`, 20, 86);
+//   if (invoice.object) doc.text(`Objet: ${invoice.object}`, 20, 94);
+//   doc.text(`Total: ${invoice.total}`, 20, 102);
+
+//   // Invoice items
+//   let y = 120;
+//   invoice.invoice_items.forEach((item, index) => {
+//     doc.text(`${index + 1}. ${item.description}`, 20, y);
+//     doc.text(`Qty: ${item.quantity} x ${item.price} = ${item.total}`, 140, y);
+//     y += 10;
+//   });
+
+//   // Save or open
+//   doc.save(`${invoice.invoice_number}.pdf`);
+// };
+
+const printInvoice = async (invoiceId) => {
+  const { invoice, company } = await fetchInvoiceForPrint(invoiceId);
+  if (!invoice || !company) return;
+
+  const doc = new jsPDF();
+
+  // Logo
+  // const logoBase64 = await getLogoBase64();
+  doc.addImage(LogoFacture, 'PNG', 15, 10, 40, 40); // x, y, width, height
+
+  // Company info next to logo
+  doc.setFontSize(12);
+  doc.text(company.company_name, 60, 15);
+  doc.text(company.owner_name, 60, 23);
+  doc.text(company.role, 60, 31);
+  doc.text(company.address, 60, 39);
+  doc.text(company.city, 60, 47);
+
+  // Invoice info
+  doc.setFontSize(14);
+  doc.text(`Facture: ${invoice.invoice_number}`, 20, 70);
+  doc.text(`Client: ${invoice.client_name}`, 20, 78);
+  doc.text(`Date: ${new Date(invoice.created_at).toLocaleDateString()}`, 20, 86);
+  if (invoice.object) doc.text(`Objet: ${invoice.object}`, 20, 94);
+
+  // Table headers
+  let startY = 110;
+  doc.setFontSize(12);
+  doc.text("Description", 20, startY);
+  doc.text("Qté", 120, startY);
+  doc.text("Prix", 140, startY);
+  doc.text("Total", 170, startY);
+
+  // Line items
+  startY += 6;
+  invoice.invoice_items.forEach((item, index) => {
+    startY += 8;
+    doc.text(item.description, 20, startY);
+    doc.text(String(item.quantity), 120, startY);
+    doc.text(item.price.toFixed(2), 140, startY);
+    doc.text(item.total.toFixed(2), 170, startY);
+  });
+
+  // Total
+  startY += 15;
+  doc.setFontSize(14);
+  doc.text(`Total: ${invoice.total.toFixed(2)} MAD`, 20, startY);
+
+  // Cachet & Signature space
+  startY += 30;
+  doc.setFontSize(12);
+  doc.text("Cachet de l'entreprise:", 20, startY);
+  doc.rect(20, startY + 5, 60, 30); // rectangle for cachet
+  doc.text("Signature:", 140, startY);
+  doc.rect(140, startY + 5, 50, 30); // rectangle for signature
+
+  // Save PDF
+  doc.save(`${invoice.invoice_number}.pdf`);
+};
+
+// end factures logic 
+
 
 
 useEffect(() => {
@@ -1226,7 +1353,11 @@ useEffect(() => {
             <td>{new Date(f.created_at).toLocaleDateString()}</td>
             <td>
               <SquarePen size={25} />
-              <Printer size={25} />
+               <Printer 
+    size={25} 
+    onClick={() => printInvoice(f.id)} 
+    style={{ cursor: "pointer" }} 
+  />
               <Trash size={25} />
             </td>
           </tr>
