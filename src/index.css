@@ -18,3 +18,13 @@ html, body {
   min-height: 100vh;
   display: block;
 }
+
+.logo_representative {
+  width: 50px;
+  height: 50px;
+}
+
+.entreprise_nom_representative {
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+}

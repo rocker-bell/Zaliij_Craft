@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "../assets/LogoFooter.svg";
+import Logo from "../assets/logo_1.svg";
 import { Phone } from "lucide-react";
 import { Mail } from "lucide-react";
 import { BookImage } from "lucide-react";
@@ -12,10 +12,11 @@ const Footer = () => {
       <div className="footer-container">
         {/* Colonne 1: Marque & Description */}
         <div className="footer-brand">
-          <div className="logo">
+          <div className="logo_footer">
             {/* <div className="logo-icon"></div>
             <span>Zellige Artisan</span> */}
-            <img src={Logo} alt="" />
+            <img src={Logo} alt=""  className="logo_representative"/>
+            <p className="entreprise_nom_representative"> Zellige ArtTravaux</p>
           </div>
           <p>
             Fabrication artisanale de zellige marocain depuis 1985. Nous perpétuons l'art ancestral de la mosaïque avec passion pour sublimer vos espaces.
@@ -50,7 +51,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>© 2026 Zellige ArtTravaux. Tous droits réservés.</p>
+        <p>© 2026 Zellige ArtTravaux SARLAU. Tous droits réservés.</p>
         <div className="footer-legal">
           <a href="/mentions-legales">Mentions légales</a>
           <a href="/confidentialite">Politique de confidentialité</a>

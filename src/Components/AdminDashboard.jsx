@@ -1372,6 +1372,7 @@ useEffect(() => {
           <th>date d'innitiation</th>
           <th>Date allouée</th>
           <th>status</th>
+          <th>main d'oeuvre</th>
           {/* <th>action</th> */}
         </tr>
       </thead>
@@ -1408,6 +1409,10 @@ useEffect(() => {
         <span className={`status-badge ${project.status}`}>
           {project.status}
         </span>
+      </td>
+
+      <td>
+        {project.number_of_workers}
       </td>
 
       {/* <td className="actions-cell">

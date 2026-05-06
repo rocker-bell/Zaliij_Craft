@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../assets/Logo.svg";
+import Logo from "../assets/Logo_1.svg";
 import QuoteModal from "./QuoteModal";
 
 const Navbar = () => {
@@ -9,7 +9,8 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <Link to="/" className="logo" style={{ textDecoration: "none" }}>
-        <img src={Logo} alt="" />
+        <img src={Logo} alt=""  className="logo_representative"/>
+          <p className="entreprise_nom_representative"> Zellige ArtTravaux</p>
       </Link>
 
       <div className="nav-links">
