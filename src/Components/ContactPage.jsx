@@ -10,7 +10,8 @@ import { Phone } from "lucide-react";
 import { Mail } from "lucide-react";
 import { MapPin } from "lucide-react";
 import { Clock } from "lucide-react";
-
+import { Check } from "lucide-react"
+ 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
     nom: "",
@@ -25,38 +26,7 @@ const ContactPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-//  const handleSubmit = async (e) => {
-//   e.preventDefault();
 
-//   const { data, error } = await supabase
-//     .from("contactus")
-//     .insert([
-//       {
-//         fullname: formData.nom,
-//         email: formData.email,
-//         telephone: formData.telephone,
-//         subject: formData.sujet,
-//         message: formData.message
-//       }
-//     ]);
-
-//   if (error) {
-//     console.error("Erreur Supabase:", error.message);
-//     alert("Erreur lors de l'envoi ❌");
-//   } else {
-//     console.log("Succès:", data);
-//     alert("Message envoyé avec succès ✅");
-
-//     // reset form
-//     setFormData({
-//       nom: "",
-//       email: "",
-//       telephone: "",
-//       sujet: "Selectionnez un sujet",
-//       message: ""
-//     });
-//   }
-// };
 
     const handleSubmit = async (e) => {
   e.preventDefault();
@@ -171,7 +141,7 @@ const ContactPage = () => {
 
             <div className="input-group">
               <label>Message *</label>
-              <textarea name="message" placeholder="Décrivez-nous votre projet..." rows="6" value={formData.message} onChange={handleChange} required></textarea>
+              <textarea name="message" className="contact-message" placeholder="Décrivez-nous votre projet..." rows="6" value={formData.message} onChange={handleChange} required></textarea>
             </div>
 
             <button type="submit" className="btn-primary">Envoyer le message</button>
@@ -183,11 +153,11 @@ const ContactPage = () => {
           <div className="faq-box">
             <h3>Pourquoi nous choisir ?</h3>
             <ul>
-              <li>✅ Devis gratuit et sans engagement</li>
-              <li>✅ Réponse rapide sous 24h</li>
-              <li>✅ Conseils d'experts personnalisés</li>
-              <li>✅ Visite de notre atelier possible</li>
-              <li>✅ Garantie qualité sur tous nos travaux</li>
+              <li className="contactLink-lists"><Check size={25} /> Devis gratuit et sans engagement</li>
+              <li className="contactLink-lists"><Check size={25} />  Réponse rapide sous 24h</li>
+              <li className="contactLink-lists"><Check size={25} />  Conseils d'experts personnalisés</li>
+              <li className="contactLink-lists"><Check size={25} />  Visite de notre atelier possible</li>
+              <li className="contactLink-lists"><Check size={25} />  Garantie qualité sur tous nos travaux</li>
             </ul>
           </div>
 

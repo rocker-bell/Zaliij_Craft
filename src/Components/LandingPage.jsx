@@ -103,7 +103,7 @@ const LandingPage = () => {
       {/* Pre footer */}
       <section className="cta">
         <h2>Prêt pour votre projet ?</h2>
-        <Link to="/about" className="btn-primary">Contactez-nous</Link>
+        <Link to="/contact" className="btn-primary">Contactez-nous</Link>
       </section>
 
     <QuoteModal

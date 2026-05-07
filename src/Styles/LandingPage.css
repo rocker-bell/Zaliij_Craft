@@ -39,6 +39,8 @@
     align-items: center;
 }
 .navbar {
+  
+  border: 3px solid black;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -389,8 +391,160 @@
   gap: 5px;
 }
 
+/* .mobile-nav-dropdown {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background: white;
+  cursor: pointer;
+} */
+
+
+/* .mobile-dropdown {
+  position: relative;
+}
+
+.mobile-dropdown-btn {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.mobile-dropdown-menu {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  min-width: 200px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.mobile-dropdown-item {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: white;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.mobile-dropdown-item:hover {
+  background: #f3f3f3;
+} */
+
+
+.mobile-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.mobile-dropdown-btn {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.mobile-dropdown-menu {
+  position: absolute;
+  top: 95%;
+  left: 0;
+  min-width: 200px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  z-index: 1000;
+
+  animation: fadeIn 0.2s ease;
+}
+
+.mobile-dropdown-item {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: white;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.mobile-dropdown-item:hover {
+  background: #f3f3f3;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Responsivité Mobile */
 @media (max-width: 768px) {
+  .navbar {
+    /* min-width: 100vw; */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  
+   .stats-container {
+    position: relative;
+
+    left: auto;
+    right: auto;
+    bottom: auto;
+
+    width: 100%;
+
+    margin: 40px auto 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-wrap: wrap;
+    gap: 16px;
+
+    padding: 0;
+  }
+
+  .stat-card {
+    width: calc(50% - 16px);
+    max-width: 160px;
+
+    height: auto;
+    padding: 24px 12px;
+  }
+
+  .project-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .project-card {
+    width: 90%;
+  }
+
   .footer-container {
     grid-template-columns: 1fr;
     gap: 40px;
