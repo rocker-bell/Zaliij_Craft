@@ -5,6 +5,10 @@ import "../Styles/LoginPage.css";
 import supabase from "../utils/supabase";
 import { useModal } from "../utils/ModalContext";
 
+import { LockKeyhole } from "lucide-react";
+import { Mail } from "lucide-react";
+
+ 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -51,7 +55,7 @@ localStorage.setItem("user", JSON.stringify({
       <div className="login-card">
         {/* En-tête de la carte avec dégradé orange */}
         <div className="login-header">
-          <div className="lock-icon">🔒</div>
+          <div className="lock-icon"><LockKeyhole size={30} /></div>
           <h1>Espace Admin</h1>
           <p>Connectez-vous pour accéder au dashboard</p>
         </div>
@@ -68,7 +72,7 @@ localStorage.setItem("user", JSON.stringify({
             <div className="input-group">
               <label>Email</label>
               <div className="input-with-icon">
-                <span className="icon">✉️</span>
+                <span className="icon"><Mail size={15} /></span>
                 <input 
                   type="email" 
                   placeholder="admin@zellige-artisan.ma" 
@@ -82,7 +86,7 @@ localStorage.setItem("user", JSON.stringify({
             <div className="input-group">
               <label>Mot de passe</label>
               <div className="input-with-icon">
-                <span className="icon">🔒</span>
+                <span className="icon"><LockKeyhole size={15} /></span>
                 <input 
                   type="password" 
                   placeholder="........" 

@@ -5,6 +5,8 @@ import "../Styles/LandingPage.css";
 import ProjectCard from "../utils/ProjectCard.jsx";
 import QuoteModal from "../utils/QuoteModal";
 
+import { Sparkles } from "lucide-react";
+
 
 const LandingPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +21,7 @@ const LandingPage = () => {
         <div className="pattern-overlay"></div>
 
         <div className="hero-content">
-          <span className="badge">✨ Artisanat marocain authentique</span>
+          <span className="badge"><Sparkles size={20} /> Artisanat marocain authentique</span>
 
           <h1>
             L'Art du Zellige <br />
