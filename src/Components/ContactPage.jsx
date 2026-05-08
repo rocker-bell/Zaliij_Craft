@@ -49,12 +49,12 @@ const ContactPage = () => {
   if (error) {
     console.error("Erreur Supabase:", error.message);
 
-    showModal("error", "Erreur lors de l'envoi ❌");
+    showModal("error", "Erreur lors de l'envoi");
     return;
   }
 
   // success
-  showModal("success", "Message envoyé avec succès ✅");
+  showModal("success", "Message envoyé avec succès");
 
   setFormData({
     nom: "",
