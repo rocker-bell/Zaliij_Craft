@@ -71,8 +71,10 @@ const LandingPage = () => {
 
       {/* PROJECTS */}
       <section className="projects">
-        <h2>Nos Réalisations</h2>
-
+        <div className="projectsoverview-header">
+          <h2>Nos Réalisations</h2>
+          <Link to="/ProjectsCatalogue" className="ProjectsCatalogue_link">Voir plus</Link>
+        </div>
         <div className="project-grid">
 
           <ProjectCard

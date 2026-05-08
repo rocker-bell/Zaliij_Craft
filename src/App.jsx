@@ -102,6 +102,7 @@ import LoginPage from "./Components/LoginPage.jsx";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import OrderStatusMap from "./Components/OrderStatusMap.jsx";
 import ClientOrderCheck from "./Components/Client_OrderCheck.jsx";
+import ProjectsCatalogue from "./Components/ProjectsCatalogue.jsx";
 const App = () => {
   const location = useLocation();
 
@@ -117,6 +118,7 @@ const App = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="ProjectsCatalogue" element={<ProjectsCatalogue/>} />
         </Route>
 
         {/* ADMIN */}
