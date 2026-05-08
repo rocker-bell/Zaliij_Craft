@@ -7,7 +7,7 @@ const TopBar = () => {
         <div className="top-info">
           <span className="Landing-topbar"> <MapPin size={20} /> Livraison dans tout le Maroc</span>
           <span className="separator">|</span>
-          <span className="Landing-topbar"> <Phone size={20}/> +212 660 271 360</span>
+          <span className="Landing-topbar"> <Phone size={20}/> +212 661-365230</span>
         </div>
         {/* <div className="top-socials">
           <a href="#instagram">Instagram</a>

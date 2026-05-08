@@ -503,6 +503,12 @@
   background: #f3f3f3;
 }
 
+.FOOTERCONTACT-ICONS {
+  list-style: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

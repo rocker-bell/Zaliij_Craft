@@ -23,11 +23,24 @@ const Footer = () => {
           </p>
           <div className="footer-socials">
             {/* <a href="#" className="social-icon" aria-label="Instagram">📸</a> */}
-            <BookImage className="icons" size={20} />
+            <Link className="FOOTERCONTACT-ICONS" to="/ProjectsCatalogue">
+              <BookImage className="icons" size={20} color="#ffff" />
+            </Link>
+            
             {/* <a href="#" className="social-icon" aria-label="Email">✉️</a> */}
-            <Mail className="icons" size={20} />
+            
+
+
+            <Link className="FOOTERCONTACT-ICONS" to="/contact">
+              <Mail className="icons" size={20} color="#ffff" />
+            </Link>
+            
             {/* <a href="#" className="social-icon" aria-label="Phone">📞</a> */}
-            <Phone className="icons" size={20} />
+
+            <Link className="FOOTERCONTACT-ICONS" to="/contact">
+              <Phone className="icons" size={20} color="#ffff" />
+            </Link>
+            
           </div>
         </div>
 
@@ -44,9 +57,9 @@ const Footer = () => {
         {/* Colonne 3: Contact Direct */}
         <div className="footer-contact">
           <h4>Contact</h4>
-          <p className="Pfooter-contact"><Phone size={20} className="icons" /> +212 660 271 360</p>
-          <p className="Pfooter-contact"><Mail size={20} className="icons" /> contact@zellige-artisan.ma</p>
-          <p className="Pfooter-contact"><MapPin size={20} className="icons" />  Médina de Fès, Maroc</p>
+          <p className="Pfooter-contact"><Phone size={20} className="icons" /> +212 661-365230</p>
+          <p className="Pfooter-contact"><Mail size={20} className="icons" /> ZelliARTRAVAUX@gmail.com</p>
+          <p className="Pfooter-contact"><MapPin size={20} className="icons" />  RABAT/AGDAL, Maroc</p>
         </div>
       </div>
 

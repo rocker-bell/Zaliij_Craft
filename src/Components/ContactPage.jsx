@@ -82,20 +82,20 @@ const ContactPage = () => {
         <div className="info-stat-card">
           <div className="icon-circle"><Phone size={20} className="icons" /></div>
           <p>Téléphone</p>
-          <h3>+212 660 271 360</h3>
-          <span>+212 523 123 456</span>
+          <h3>+212 661-365230</h3>
+          <span>+212 661-365230</span>
         </div>
         <div className="info-stat-card">
           <div className="icon-circle"><Mail size={20} className="icons" /></div>
           <p>Email</p>
-          <h3>contact@zellige-artisan.ma</h3>
-          <span>info@zellige-artisan.ma</span>
+          <h3>ZelliARTRAVAUX@gmail.com</h3>
+          {/* <span>info@zellige-artisan.ma</span> */}
         </div>
         <div className="info-stat-card">
           <div className="icon-circle"><MapPin size={20} className="icons" /></div>
           <p>Adresse</p>
           <h3>Médina de Fès</h3>
-          <span>Rue des Artisans, Fès 30000</span>
+          <span>RABAT/AGDAL, MAROC</span>
         </div>
         <div className="info-stat-card">
           <div className="icon-circle"><Clock size={20} className="icons" /></div>
@@ -163,7 +163,7 @@ const ContactPage = () => {
 
           <div className="emergency-box">
             <p>Besoin d'une réponse rapide ?</p>
-            <a href="tel:+212660271360" className="phone-link"><Phone size={20} /> +212 660 271 360</a>
+            <a href="tel:+212661365230" className="phone-link"><Phone size={20} /> +212 661-365230</a>
           </div>
         </aside>
       </section>

@@ -31,6 +31,10 @@ import img1 from "../images_chantillons/chantillons_1.jpg";
 import img2 from "../images_chantillons/chantillons_2.jpg";
 import img3 from "../images_chantillons/chantillons_3.jpg";
 import img4 from "../images_chantillons/chantillons_4.jpg";
+import img5 from "../images_chantillons/chantillons_5.jpeg";
+import img6 from "../images_chantillons/chantillons_6.jpeg";
+
+
 
 
 const ProjectsCatalogue = () => {
@@ -38,7 +42,9 @@ const ProjectsCatalogue = () => {
     { id: 1, image: img1, title: "Project 1" },
     { id: 2, image: img2, title: "Project 2" },
     { id: 3, image: img3, title: "Project 3" },
-    { id: 4, image: img4, title: "Project 3" },
+    { id: 4, image: img4, title: "Project 4" },
+    { id: 5, image: img5, title: "Project 5" },
+    { id: 6, image: img6, title: "Project 6" },
   ];
 
   return (
