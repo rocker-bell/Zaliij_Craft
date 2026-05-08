@@ -43,11 +43,11 @@ const QuoteModal = ({ isOpen, onClose }) => {
         if (error) {
           console.error("Erreur Supabase:", error.message);
 
-          showModal("error", "Erreur lors de l'envoi du Devis ❌");
+          showModal("error", "Erreur lors de l'envoi du Devis");
           return;
         }
 
-        showModal("success", "Devise envoyé avec succès ✅")
+        showModal("success", "Devise envoyé avec succès")
 
 
         setTimeout(() => {
