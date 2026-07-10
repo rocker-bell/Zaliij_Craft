@@ -138,10 +138,12 @@
 }
 
 .OrderStatusMap-wrapper {
+
     width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     padding: 40px 20px;
     background-color: #f9fafb;

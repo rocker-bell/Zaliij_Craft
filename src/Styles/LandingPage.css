@@ -40,11 +40,11 @@
 }
 .navbar {
   
-  border: 3px solid black;
+ 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 10%;
+  padding: 30px 15px;
   background: var(--white);
   border-bottom: 1px solid #edf2f7;
 }
@@ -56,14 +56,19 @@
   font-weight: 800;
   font-size: 1.4rem;
   color: var(--teal-dark);
+  
 }
 
 .logo-icon {
-  width: 24px;
-  height: 24px;
+  width: 15px;
+  height: 15px;
   background: var(--orange);
   transform: rotate(45deg);
   border-radius: 4px;
+}
+
+.demander-devis.disabled {
+    display: none;
 }
 
 .nav-links a {
@@ -462,23 +467,29 @@
 
 
 .mobile-dropdown {
+  
   position: relative;
   display: inline-block;
 }
 
 .mobile-dropdown-btn {
   padding: 10px 14px;
+  min-width: 100%;
   border: none;
   border-radius: 8px;
   background: white;
   cursor: pointer;
   font-size: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
 }
 
 .mobile-dropdown-menu {
+  padding: 5px 5px;
   position: absolute;
   top: 95%;
-  left: 0;
+  left: -100px;
   min-width: 200px;
   background: white;
   border-radius: 10px;
@@ -524,10 +535,12 @@
 @media (max-width: 768px) {
   .navbar {
     /* min-width: 100vw; */
+    border: 3px solid black;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     flex-direction: row;
+    gap: 30px;
   }
 
   

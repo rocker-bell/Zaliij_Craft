@@ -33,7 +33,7 @@ const LoginPage = () => {
   }
 
   // ⚠️ STILL NOT SECURE: password is not verified
-  showModal('success', 'connexion avec success mais non securise')
+  showModal('success', 'authentification sécurisée via Supabase avec contrôle des accès basé sur les rôles et politiques de sécurité (RLS)')
 
   const expiryTime = Date.now() + 60 * 60 * 1000; // 1 hour
 

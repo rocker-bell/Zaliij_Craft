@@ -103,6 +103,7 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import OrderStatusMap from "./Components/OrderStatusMap.jsx";
 import ClientOrderCheck from "./Components/Client_OrderCheck.jsx";
 import ProjectsCatalogue from "./Components/ProjectsCatalogue.jsx";
+import AdminDashboardLayout from "./Components/AdminDashboard.jsx";
 const App = () => {
   const location = useLocation();
 
@@ -126,7 +127,7 @@ const App = () => {
   path="/AdminDashboard"
   element={
     <ProtectedRoute>
-      <AdminDashboard />
+      <AdminDashboardLayout />
     </ProtectedRoute>
   }
 />

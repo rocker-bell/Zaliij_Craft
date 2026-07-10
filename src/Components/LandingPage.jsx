@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 import "../Styles/LandingPage.css";
 import ProjectCard from "../utils/ProjectCard.jsx";
 import QuoteModal from "../utils/QuoteModal";
+import Chantillon5 from "../images_chantillons/chantillons_5.jpeg";
+import Chantillon2 from "../images_chantillons/chantillons_2.jpg";
+import Chantillon4 from "../images_chantillons/chantillons_4.jpg";
+
+
 
 import { Sparkles } from "lucide-react";
 
@@ -78,7 +83,7 @@ const LandingPage = () => {
         <div className="project-grid">
 
           <ProjectCard
-            image="https://images.unsplash.com/photo-1590079015129-f6883bee95aa"
+            image={ Chantillon2 }
             title="Zellige Traditionnel"
             desc="Art ancestral marocain"
           />
@@ -90,13 +95,13 @@ const LandingPage = () => {
           />
 
           <ProjectCard
-            image="https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+            image={Chantillon5}
             title="Design moderne"
             desc="Fusion tradition & modernité"
           />
 
           <ProjectCard
-            image="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c"
+            image={Chantillon4 }
             title="Architecture"
             desc="Projets haut de gamme"
           />

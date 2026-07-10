@@ -50,10 +50,11 @@
 
 
 import "../Styles/OrderstatusMap.css";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import supabase from "../utils/supabase";
 import { useEffect, useState } from "react";
 import "../Styles/OrderStatusMap.css"
+import { ArrowLeft } from "lucide-react";
 
 const OrderStatusMap = () => {
     const { id } = useParams();
@@ -135,9 +136,12 @@ useEffect(() => {
 }, [id]);
 
     return (
+        <>
+        
         <div className="OrderStatusMap-wrapper">
-            <h1>OrderStatusMap</h1>
-            <p>OrderId = {id}</p>
+            <Link to="/AdminDashboard"> <ArrowLeft /> </Link>
+            <h1>Status d'exportation</h1>
+            <p>id d'exportation = {id}</p>
 
             {/* {exports.map((order) => (
                 <div key={order.id}>
@@ -187,7 +191,7 @@ useEffect(() => {
 </div>
 
 <div className="exports-liveStatus-wrapper">
-    <p className={`Live_status pending ${exportStatus === "pending" ? "active" : ""}`}>pending</p>
+    <p className={`Live_status pending ${exportStatus === "pending" ? "active" : ""}`}>en cours</p>
     <p className={`Live_status en_route ${exportStatus === "en_route" ? "active" : ""}`}>en route</p>
     <p className={`Live_status a_la_diwan ${exportStatus === "a_la_diwan" ? "active" : ""}`}>a la diwan</p>
     <p className={`Live_status chez_la_poste ${exportStatus === "chez_la_poste" ? "active" : ""}`}>chez la poste</p>
@@ -195,6 +199,7 @@ useEffect(() => {
 
             </div>
         </div>
+        </>
     );
 };
 

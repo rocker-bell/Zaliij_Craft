@@ -60,8 +60,8 @@ const FactureModal = ({ isOpen, onClose}) => {
         </select>
 
         <div className="modal-actions">
-          <button onClick={onClose}>Annuler</button>
-          <button onClick={handleSubmit}>Créer</button>
+          <button type="button" className="cancel-btn" onClick={onClose}>Annuler</button>
+          <button  type="submit" className="btn-primary" onClick={handleSubmit}>Créer</button>
         </div>
 
       </div>

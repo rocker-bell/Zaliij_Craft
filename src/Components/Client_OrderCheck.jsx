@@ -331,16 +331,16 @@ const ClientOrderCheck = () => {
                 />
 
                 <button onClick={handleSearch}>
-                    Track Order
+                    Suiver la commande
                 </button>
             </div>
 
             {/* LOADING */}
-            {loading && <p>Loading order...</p>}
+            {loading && <p>Chargement de la commande...</p>}
 
             {/* NOT FOUND */}
             {!loading && orderId && !order && (
-                <p className="not-found">Order not found</p>
+                <p className="not-found">Commande introuvable</p>
             )}
 
             {/* ORDER VIEW */}
@@ -351,11 +351,11 @@ const ClientOrderCheck = () => {
                         <h2>Order #{order.id}</h2>
 
                         <p><strong>Client:</strong> {order.client}</p>
-                        <p><strong>Product:</strong> {order.product}</p>
-                        <p><strong>Country:</strong> {order.country}</p>
-                        <p><strong>Amount:</strong> {order.amount} MAD </p>
+                        <p><strong>Produit:</strong> {order.product}</p>
+                        <p><strong>Pays:</strong> {order.country}</p>
+                        <p><strong>Total:</strong> {order.amount} MAD </p>
                         <p><strong>Status:</strong> {status}</p>
-                        <p><strong>Created:</strong> {order.created_at}</p>
+                        <p><strong>Creation:</strong> {order.created_at}</p>
                     </div>
 
                     {/* STATUS TRACKER (READ ONLY) */}
@@ -373,7 +373,7 @@ const ClientOrderCheck = () => {
 
                     {/* LABELS */}
                     <div className="labels">
-                        <p>Pending</p>
+                        <p>En cours</p>
                         <p>En route</p>
                         <p>A la diwan</p>
                         <p>Chez la poste</p>

@@ -2,8 +2,10 @@
   min-width: 70%;
   background-color: #f8fafc;
   min-height: 100vh;
+ 
   padding: 30px 5%;
   font-family: 'Inter', sans-serif;
+ 
 }
 
 .loading {
@@ -56,6 +58,7 @@
 .stat-card-admin {
   background: white;
   padding: 25px;
+  min-height: 200px;
   border-radius: 16px;
   display: flex;
   justify-content: space-between;
@@ -82,7 +85,9 @@
 .green { background: #f0fdf4; color: #22c55e; }
 
 
-.devis-section, .contacts-section, .projects-section {
+.devis-section, .contacts-section, .projects-section, .exports-section, .factures-section, .workers-section, .courantProject-section {
+    min-width: 100%;
+    min-height: 500px;
   background: white;
   border-radius: 16px;
   padding: 30px;
@@ -430,3 +435,32 @@ tr, td {
   flex-direction: row;
   gap: 5px;
 } */
+
+
+/* Dashboard toggle */
+
+.dashboard-toggle-version {
+  border: 1px solid #A2B9E2;
+    /* padding: 10px 10px; */
+    min-width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  
+}
+
+.dashboard-version {
+      min-width: 50%;
+      /* border: 1px dashed black; */
+      padding: 10px 10px;
+}
+
+.dashboard-version:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+  border: 3px solid #7899D4;
+  border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}

@@ -1,0 +1,66 @@
+/* =========================
+   WRAPPER
+========================= */
+.AdminDashboardLayout_wrapper {
+  min-height: 100vh;
+  background: #f8fafc;
+  font-family: "Inter", sans-serif;
+}
+
+/* =========================
+   VERSION TOGGLE BAR
+========================= */
+.AdminDashaboard-version-select {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+
+  display: flex;
+  gap: 6px;
+
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+
+  padding: 6px;
+  border-radius: 12px;
+
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+
+  z-index: 999;
+}
+
+/* =========================
+   TOGGLE ITEMS
+========================= */
+.AdminDashaboard-version-select div {
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+
+  border-radius: 8px;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+/* hover effect */
+.AdminDashaboard-version-select div:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* active state */
+.AdminDashaboard-version-select div.active {
+  background: linear-gradient(135deg, #ff6b00, #ff8c3a);
+  color: white;
+
+  box-shadow: 0 6px 18px rgba(255, 107, 0, 0.25);
+}
+
+/* click animation feel */
+.AdminDashaboard-version-select div:active {
+  transform: scale(0.95);
+}

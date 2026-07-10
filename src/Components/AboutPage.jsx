@@ -42,10 +42,10 @@ const AboutPage = () => {
             <span className="aboutPage__subtitle">Notre Atelier</span>
             <h2>Un Héritage Familial Transmis avec Fierté</h2>
             <p>
-              Depuis 1985, notre atelier perpétue l’art du zellige marocain avec passion et précision. Héritiers d’un savoir-faire ancestral, nous créons des pièces uniques, façonnées à la main, alliant tradition et élégance contemporaine.
+              Depuis 2012, notre atelier perpétue l’art du zellige marocain avec passion et précision. Héritiers d’un savoir-faire ancestral, nous créons des pièces uniques, façonnées à la main, alliant tradition et élégance contemporaine.
             </p>
                         <p>
-            Fondé en 1985 au cœur de la médina de Fès, notre atelier est le fruit d’une passion familiale pour l’art du zellige, transmise de génération en génération. Notre fondateur, Maître Hassan, a appris les techniques ancestrales auprès de son grand-père, perpétuant ainsi un savoir-faire d’exception.
+            Fondé en 2012 au cœur de la médina de Fès, notre atelier est le fruit d’une passion familiale pour l’art du zellige, transmise de génération en génération. Notre fondateur, Maître Hassan, a appris les techniques ancestrales auprès de son grand-père, perpétuant ainsi un savoir-faire d’exception.
             </p>
 
             <p>
@@ -159,20 +159,20 @@ const AboutPage = () => {
   <div className="aboutPage__teamGrid">
     <div className="aboutPage__teamCard">
       <Users />
-      <h3>Hassan Elmrani</h3>
+      <h3>Mohammed EL Kadiri</h3>
       <p>Maître Artisan - Fondateur</p>
     </div>
 
     <div className="aboutPage__teamCard">
       <Users />
-      <h3>Fatima Benali</h3>
-      <p>Experte en motifs</p>
+      <h3>Redouane Filai Razouki</h3>
+      <p>Conducteur de travaux</p>
     </div>
 
     <div className="aboutPage__teamCard">
       <Users />
-      <h3>Youssef Karim</h3>
-      <p>Chef d’atelier</p>
+      <h3>Salim Elouanan</h3>
+      <p>Maître artisan</p>
     </div>
   </div>
 </section>
