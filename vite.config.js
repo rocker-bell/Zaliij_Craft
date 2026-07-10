@@ -4,6 +4,6 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "/Zaliij_Craft/",
+  base: "/Zellige_Art_Travaux/",
   envDir: "config"
 })
