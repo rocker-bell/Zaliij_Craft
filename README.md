@@ -1,4 +1,4 @@
-#  ZelligeArt (Full stack project)
+#  ZelligeArt Travaux (Full stack project)
 
 A modern, responsive landing page built for a Moroccan ZelligeArt business.  
 This project showcases traditional craftsmanship with a clean, premium web design.
